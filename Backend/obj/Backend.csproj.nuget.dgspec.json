@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\code\\GamerFind\\Backend\\Backend.csproj": {}
+    "C:\\code\\GamerFind\\Backend\\Backend.csproj": {}
   },
   "projects": {
-    "c:\\code\\GamerFind\\Backend\\Backend.csproj": {
+    "C:\\code\\GamerFind\\Backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\code\\GamerFind\\Backend\\Backend.csproj",
+        "projectUniqueName": "C:\\code\\GamerFind\\Backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "c:\\code\\GamerFind\\Backend\\Backend.csproj",
+        "projectPath": "C:\\code\\GamerFind\\Backend\\Backend.csproj",
         "packagesPath": "C:\\Users\\m-bar\\.nuget\\packages\\",
-        "outputPath": "c:\\code\\GamerFind\\Backend\\obj\\",
+        "outputPath": "C:\\code\\GamerFind\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\m-bar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -21,6 +21,7 @@
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,6 +40,12 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[6.0.1, )"
