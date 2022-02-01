@@ -27,5 +27,13 @@ namespace Backend.Controllers
             return users;
         }
         
+        // Get one user
+        // api/users/1
+        [HttpGet("{id}")]
+        public ActionResult<User> GetUser(int id)
+        {
+            var user = _context.Users.Find(id);
+            return user;
+        }
     }
 }
