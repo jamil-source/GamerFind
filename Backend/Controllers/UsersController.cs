@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Backend.Data;
+using Backend.DTO;
 using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,14 +41,14 @@ namespace Backend.Controllers
         // Register User
         // api/users/register
         [HttpPost("register")]
-        public async Task<ActionResult<User>> RegisterUser(string username, string email, string password)
+        public async Task<ActionResult<User>> RegisterUser(RegisterDTO reg)
         {
             using var hmac = new HMACSHA512(); // Hashing 
             User user = new User
             {
-                UserName = username,
-                Email = email,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
+                UserName = reg.UserName,
+                Email = reg.Email,
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(reg.Password)),
                 PasswordSalt = hmac.Key // HMACSHA512 generates a key and that key will be used as salt for the PW
             };
 
