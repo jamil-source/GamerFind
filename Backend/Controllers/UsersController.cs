@@ -73,7 +73,7 @@ namespace Backend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(LoginDTO login)
         {
-            User user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == login.UserName);
+            User user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == login.UserName.ToLower());
 
             if(user == null) 
             {
