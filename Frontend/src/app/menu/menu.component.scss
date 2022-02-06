@@ -1,0 +1,8 @@
+@import '../shared/styles/_fonts.scss';
+@import '../shared/styles/colors.scss';
+
+.header{
+    font-family: $header;
+    font-size: 35px;
+    color: $standard !important;
+}
