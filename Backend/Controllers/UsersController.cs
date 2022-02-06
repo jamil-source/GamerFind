@@ -28,7 +28,7 @@ namespace Backend.Controllers
             var users = await _context.Users.ToListAsync();
             return users;
         }
-        
+
         // Get one user
         // api/users/1
         [HttpGet("{id}")]
@@ -44,13 +44,13 @@ namespace Backend.Controllers
         public async Task<ActionResult<User>> RegisterUser(RegisterDTO reg)
         {
             // Check if username already exists in db
-            if(await _context.Users.AnyAsync(user => user.UserName == reg.UserName.ToLower()))
+            if (await _context.Users.AnyAsync(user => user.UserName == reg.UserName.ToLower()))
             {
                 return BadRequest("Username taken!");
-            } 
+            }
 
             // Check if email already exists in db
-            if(await _context.Users.AnyAsync(user => user.Email == reg.Email.ToLower()))
+            if (await _context.Users.AnyAsync(user => user.Email == reg.Email.ToLower()))
             {
                 return BadRequest("Email taken!");
             }
@@ -66,7 +66,32 @@ namespace Backend.Controllers
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            
+
+            return user;
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<User>> Login(LoginDTO login)
+        {
+            User user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == login.UserName);
+
+            if(user == null) 
+            {
+                return Unauthorized("Invalid username");
+            }
+
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+
+            var computedHash =  hmac.ComputeHash(Encoding.UTF8.GetBytes(login.Password));
+
+            for(int i = 0; i < computedHash.Length; i++)
+            {
+                if(computedHash[i] != user.PasswordHash[i])
+                {
+                    return Unauthorized("Inavlid password");
+                }
+            }
+
             return user;
         }
 
