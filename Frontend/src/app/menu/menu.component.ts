@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-
+  loginObj: any = {}
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  login() {
+    console.log(this.loginObj)
   }
 
 }
