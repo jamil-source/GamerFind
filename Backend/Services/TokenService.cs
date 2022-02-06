@@ -25,7 +25,7 @@ namespace Backend.Services
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName) // a user Claims that his username is Karl123 for example
             };
 
-            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature); // the algoritm for encrypting
 
             var tknDesc = new SecurityTokenDescriptor // describe the token, and lifetime
             {
