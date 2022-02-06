@@ -1,8 +1,29 @@
-@import '../shared/styles/_fonts.scss';
-@import '../shared/styles/colors.scss';
+@import "../shared/styles/_fonts.scss";
+@import "../shared/styles/colors.scss";
 
-.header{
-    font-family: $header;
-    font-size: 35px;
-    color: $standard !important;
+.navbar {
+    background: $standard-background !important;
+    .header {
+        font-family: $header;
+        font-size: 35px;
+        color: $standard !important;
+    }
+    .navbar-nav {
+        a {
+            font-size: 20px;
+            font-weight: bold;
+            color: $white;
+        }
+    }
+    form{
+        input{
+            background-color: $input-background;
+            border-color: $standard;
+            color: $white;
+            font-weight: bold;
+        }
+        button{
+            font-weight: bold;
+        }
+    }
 }
