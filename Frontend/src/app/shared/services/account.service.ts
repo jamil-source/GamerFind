@@ -19,13 +19,23 @@ export class AccountService {
     return this.http.post(`${this.baseUrl}users/login`, loginObj).pipe(
       map((res: User) => {
         const user = res;
-        user && localStorage.setItem('user', JSON.stringify(user));
-        this.loggedInUserSrc.next(user);
+        user && (localStorage.setItem('user', JSON.stringify(user)), this.loggedInUserSrc.next(user));
+        return user;
       })
     )
   }
 
-  setLoggedInUser(user: User){
+  register(registerObj: any) {
+    return this.http.post(`${this.baseUrl}users/register`, registerObj).pipe(
+      map((user: User) => {
+        //Login once registration is done
+        user && (localStorage.setItem('user', JSON.stringify(user)), this.loggedInUserSrc.next(user));
+        return user;
+      })
+    )
+  }
+
+  setLoggedInUser(user: User) {
     this.loggedInUserSrc.next(user);
   }
 

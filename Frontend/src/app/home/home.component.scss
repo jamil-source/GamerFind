@@ -8,7 +8,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    min-height: 600px;
+    min-height: 800px;
     font-weight: bold;
     color: $white;
     .home-info {
@@ -26,9 +26,6 @@
                 flex-direction: column;
                 justify-content: center;
                 text-align: center;
-                input{
-                    font-weight: bold;
-                }
             }
         }
     }
