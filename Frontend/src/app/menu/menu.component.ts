@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from '../models/User';
 import { AccountService } from '../shared/services/account.service';
 
 @Component({
@@ -8,24 +10,25 @@ import { AccountService } from '../shared/services/account.service';
 })
 export class MenuComponent implements OnInit {
   loginObj: any = {}
-  loggedIn: boolean;
+  loggedIn$: Observable<User>;
 
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
+    // check if user is logged in or not
+    this.loggedIn$ = this.accountService.loggedInUser$;
   }
 
   login() {
     this.accountService.login(this.loginObj).subscribe(res => {
-      console.log(res);
-      this.loggedIn = true;
-    }, error =>{
+    }, error => {
       console.log(error);
     })
   }
 
-  logout(){
-    this.loggedIn = false;
+  logout() {
+    this.accountService.logout();
   }
+
 
 }
