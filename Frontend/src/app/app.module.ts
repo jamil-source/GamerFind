@@ -25,7 +25,7 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     BsDropdownModule.forRoot(),
   ],
-  providers: [],
+  providers: [HomeComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

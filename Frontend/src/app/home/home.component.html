@@ -1,7 +1,14 @@
 <div class="container mt-5">
-    <div class="home-info">
+    <div *ngIf="!registerSwitch" class="home-info">
         <h1>Welcome to GamerFind</h1>
         <p class="lead">Join us to make your gaming experience better!</p>
     </div>
-        
+
+    <div *ngIf="registerSwitch" class="container form-register">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                form
+            </div>
+        </div>
+    </div>
 </div>
