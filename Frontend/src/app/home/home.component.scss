@@ -1,0 +1,20 @@
+@import '../shared/styles/colors';
+@import '../shared/styles/fonts';
+
+.container{
+    background-color: $input-background;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 600px;
+    font-weight: bold;
+    color: $white;
+    .home-info{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+}

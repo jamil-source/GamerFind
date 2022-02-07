@@ -1,1 +1,13 @@
 @import 'shared/styles/colors';
+.wrapper{
+    background-color: $standard-background;
+}
+.wrapper-with-background{
+    background: url("shared/images/background-gamer.jpg");
+    background-size: 100%;  
+    background-size: cover; 
+}
+.container{
+    max-width: 100vw;
+    min-height: 100vh;
+}

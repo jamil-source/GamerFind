@@ -11,11 +11,17 @@ import { AccountService } from './shared/services/account.service';
 export class AppComponent implements OnInit{
   title = 'GamerFind';
   users: any;
+  currentUrlPath: string;
+  backgroundChange: boolean;
 
   constructor(private http: HttpClient, private accountService: AccountService) { }
 
   ngOnInit() {
     const user: User = JSON.parse(localStorage.getItem('user'));
     this.accountService.setLoggedInUser(user);
+    this.currentUrlPath = window.location.pathname;
+
+    this.currentUrlPath === "/" ? this.backgroundChange = true : this.backgroundChange = false;
+    
   }
 }

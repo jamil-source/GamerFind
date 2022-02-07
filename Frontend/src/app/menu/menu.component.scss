@@ -1,13 +1,17 @@
 @import "../shared/styles/_fonts.scss";
 @import "../shared/styles/colors.scss";
 
+.bg-light{
+    background-color: transparent !important;
+}
 .navbar {
-    background: $standard-background !important;
+    background: transparent;
     .header {
         font-family: $header;
         font-size: 40px;
         color: $standard !important;
     }
+    
     .navbar-toggler{
         border: 2px solid $standard !important;
     }
@@ -25,6 +29,7 @@
         }
         a:hover {
             box-shadow: 0 4px $standard;
+            opacity: .8;
         }
     }
     .dropdown-toggle {
