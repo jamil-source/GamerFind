@@ -16,5 +16,9 @@ export class HomeComponent implements OnInit {
     this.shared.registerSwitchState.subscribe(state => this.registerSwitch = state)
   }
 
+  cancelRegisterMode(e: boolean){
+    this.shared.changeRegisterSwitchState(e);
+  }
+
 
 }
