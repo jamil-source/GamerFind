@@ -6,13 +6,14 @@ import { HomeComponent } from './home/home.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './messages/messages.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'members', component: MemberListComponent},
-  {path: 'members/:id', component: MemberDetailComponent},
-  {path: 'gamer-lists', component: GamerListsComponent},
-  {path: 'messages', component: MessagesComponent},
+  {path: 'members', component: MemberListComponent, canActivate: [AuthGuard]},
+  {path: 'members/:id', component: MemberDetailComponent, canActivate: [AuthGuard]},
+  {path: 'gamer-lists', component: GamerListsComponent, canActivate: [AuthGuard]},
+  {path: 'messages', component: MessagesComponent, canActivate: [AuthGuard]},
   {path: '**', component: ErrorComponent, pathMatch: 'full'},
 ];
 
