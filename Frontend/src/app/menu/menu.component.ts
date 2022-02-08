@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HomeComponent } from '../home/home.component';
 import { User } from '../models/User';
@@ -15,7 +16,7 @@ export class MenuComponent implements OnInit {
   loggedIn$: Observable<User>;
   registerSwitch:boolean;
 
-  constructor(private accountService: AccountService, private shared: SharedService) { }
+  constructor(private accountService: AccountService, private shared: SharedService, private router: Router) { }
 
   ngOnInit(): void {
     // check if user is logged in or not
@@ -25,6 +26,7 @@ export class MenuComponent implements OnInit {
 
   login() {
     this.accountService.login(this.loginObj).subscribe(res => {
+      this.router.navigateByUrl('/members')
     }, error => {
       console.log(error);
     })
@@ -32,6 +34,7 @@ export class MenuComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
+    this.router.navigateByUrl('/')
   }
 
   registerToggle(){
