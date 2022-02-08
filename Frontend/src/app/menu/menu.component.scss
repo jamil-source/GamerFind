@@ -1,0 +1,84 @@
+@import "../shared/styles/_fonts.scss";
+@import "../shared/styles/colors.scss";
+
+.bg-light{
+    background-color: transparent !important;
+}
+.navbar {
+    background: transparent;
+    .header {
+        font-family: $header;
+        font-size: 40px;
+        color: $standard !important;
+    }
+    
+    .navbar-toggler{
+        border: 2px solid $standard !important;
+    }
+    .navbar-nav {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        a {
+            transition: all 0.8s;
+            font-size: 25px;
+            font-weight: bold;
+            color: $white;
+            padding: 0;
+            margin: 8px 10px;
+        }
+        a:hover {
+            box-shadow: 0 4px $standard;
+            opacity: .8;
+        }
+    }
+    .dropdown-toggle {
+        font-size: 20px;
+    }
+    .dropdown-toggle,
+    .dropdown-item {
+        cursor: pointer;
+    }
+    form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        input {
+            background-color: $input-background;
+            border-color: $standard;
+            color: $white;
+            font-weight: bold;
+        }
+        button {
+            font-weight: bold;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .register-btn {
+            background-color: $standard;
+            color: $white;
+            font-weight: bold;
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .navbar {
+        form {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            input{
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+@media only screen and (max-width: 363px){
+    .header {
+        font-family: $header;
+        font-size: 20px !important;
+        color: $standard !important;
+    }
+}

@@ -1,0 +1,32 @@
+@import "../shared/styles/colors";
+@import "../shared/styles/fonts";
+
+.container {
+    background-color: $input-background;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 800px;
+    font-weight: bold;
+    color: $white;
+    .home-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .form-register { 
+        .row {
+            width: 100%;
+            height: 440px;
+            .col-6 {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    }
+}
