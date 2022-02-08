@@ -12,7 +12,6 @@ import { AccountService } from './shared/services/account.service';
 export class AppComponent implements OnInit {
   title = 'GamerFind';
   users: any;
-  currentUrlPath: string;
   backgroundChange: boolean;
   event$: any;
 
@@ -27,7 +26,6 @@ export class AppComponent implements OnInit {
     this.event$ = this.router.events.subscribe(
       (event: NavigationEvent) => {
         if (event instanceof NavigationStart) {
-          console.log(event.url);
           event.url === "/" ? this.backgroundChange = true : this.backgroundChange = false;
         }
       });
