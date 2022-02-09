@@ -1,7 +1,7 @@
 @import "../shared/styles/_fonts.scss";
 @import "../shared/styles/colors.scss";
 
-.bg-light{
+.bg-light {
     background-color: transparent !important;
 }
 .navbar {
@@ -11,8 +11,8 @@
         font-size: 40px;
         color: $standard !important;
     }
-    
-    .navbar-toggler{
+
+    .navbar-toggler {
         border: 2px solid $standard !important;
     }
     .navbar-nav {
@@ -29,7 +29,10 @@
         }
         a:hover {
             box-shadow: 0 4px $standard;
-            opacity: .8;
+            opacity: 0.8;
+        }
+        .active {
+            box-shadow: 0 4px $standard;
         }
     }
     .dropdown-toggle {
@@ -68,14 +71,14 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            input{
+            input {
                 width: 100%;
                 margin-bottom: 10px;
             }
         }
     }
 }
-@media only screen and (max-width: 363px){
+@media only screen and (max-width: 363px) {
     .header {
         font-family: $header;
         font-size: 20px !important;
