@@ -19,8 +19,8 @@
                 </li>
             </ul>
 
-            <div class="dropdown" *ngIf="loggedIn$ | async" dropdown>
-                <a class="dropdown-toggle text-light" dropdownToggle>Welcome</a>
+            <div class="dropdown" *ngIf="(loggedIn$ | async) as user" dropdown>
+                <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.userName | titlecase}}</a>
                 <a class="dropdown-menu" *dropdownMenu>
                     <a class="dropdown-item">Edit profile</a>
                     <div class="dropdown-divider"></div>
