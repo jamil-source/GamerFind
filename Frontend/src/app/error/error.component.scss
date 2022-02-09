@@ -1,0 +1,13 @@
+@import '../shared/styles/colors';
+@import '../shared/styles/fonts';
+
+.container{
+    min-height: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+        background-color: $standard-background;
+        width: 10px;
+    }
+}
