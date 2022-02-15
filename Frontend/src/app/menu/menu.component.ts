@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { HomeComponent } from '../home/home.component';
@@ -16,13 +17,16 @@ export class MenuComponent implements OnInit {
   loginObj: any = {}
   loggedIn$: Observable<User>;
   registerSwitch:boolean;
+  showNav: boolean = false;
 
-  constructor(private accountService: AccountService, private shared: SharedService, private router: Router, private toastr: ToastrService) { }
+  constructor(private accountService: AccountService, private shared: SharedService, private router: Router, private toastr: ToastrService, private location: Location) { }
 
   ngOnInit(): void {
     // check if user is logged in or not
     this.loggedIn$ = this.accountService.loggedInUser$;
     this.shared.registerSwitchState.subscribe(state => this.registerSwitch = state);
+    this.checkWhereRoute();
+    
   }
 
   login() {
@@ -41,6 +45,16 @@ export class MenuComponent implements OnInit {
   registerToggle(){
     this.registerSwitch = !this.registerSwitch;
     this.shared.changeRegisterSwitchState(this.registerSwitch)
+  }
+
+  checkWhereRoute(){
+    // close register button depending on where we are at
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd) { 
+        const url = event.urlAfterRedirects;
+        url === '/' && (this.showNav = true);
+      }
+    })
   }
 
 

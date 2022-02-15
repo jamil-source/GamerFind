@@ -20,9 +20,21 @@ export class RegisterComponent implements OnInit {
     this.accountService.register(this.model).subscribe(res => {
       console.log(res);
       this.cancel();
-    }, err =>{
-      console.log(err);
-      this.toastr.error(err.error)
+    }, err => {
+      let errors = err.error.errors;
+      let errorMessages: string[] = []
+      if (errors) {
+        for (const er in errors) {
+          if (errors[er]) {
+            errorMessages.push(errors[er])
+          }
+        }
+      }
+      let messages: string = ""
+      errorMessages.forEach(message => {
+        return messages += " " + message;
+      });
+      this.toastr.error(messages)
     })
   }
 

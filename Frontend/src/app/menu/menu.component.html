@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-xl navbar-dark bg-light">
-    <div class="container">
+    <div class="container" *ngIf="showNav">
         <a class="navbar-brand header" routerLink="/">GAMERFIND</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
                 <input name="password" [(ngModel)]="loginObj.password" class="form-control mr-sm-2" type="password"
                     placeholder="PASSWORD">
                 <button class="btn btn-success my-2 my-sm-0" type="submit">LOGIN</button>
-                <a class="btn register-btn my-2 my-sm-0" (click)="registerToggle()">REGISTER</a>
+                <button class="btn register-btn my-2 my-sm-0" type="button" (click)="registerToggle()">REGISTER</button>
             </form>
         </div>
     </div>

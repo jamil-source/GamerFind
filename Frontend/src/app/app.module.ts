@@ -16,6 +16,7 @@ import { GamerListsComponent } from './gamer-lists/gamer-lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ErrorComponent } from './error/error.component';
 import { ToastrModule } from 'ngx-toastr';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ToastrModule } from 'ngx-toastr';
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
-    })
+    }),
+    FontAwesomeModule
   ],
   providers: [HomeComponent],
   bootstrap: [AppComponent]
