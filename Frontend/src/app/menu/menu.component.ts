@@ -17,7 +17,7 @@ export class MenuComponent implements OnInit {
   loginObj: any = {}
   loggedIn$: Observable<User>;
   registerSwitch:boolean;
-  showNavRegButton: boolean = false;
+  showNav: boolean = false;
 
   constructor(private accountService: AccountService, private shared: SharedService, private router: Router, private toastr: ToastrService, private location: Location) { }
 
@@ -52,7 +52,7 @@ export class MenuComponent implements OnInit {
     this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd) { 
         const url = event.urlAfterRedirects;
-        url === '/' && (this.showNavRegButton = true);
+        url === '/' && (this.showNav = true);
       }
     })
   }

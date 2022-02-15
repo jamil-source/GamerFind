@@ -4,6 +4,7 @@
 .error-container{
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     max-width: 100vw;
     min-height: 80vh;
@@ -12,6 +13,13 @@
         font-family: $header;
         color: $standard;
         text-align: center;
+        a{
+            color: $standard;
+            text-decoration: underline;
+            &:hover{
+                opacity: .5;
+            }
+        }
     }
 }
 
