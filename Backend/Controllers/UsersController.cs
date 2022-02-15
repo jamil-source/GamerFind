@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Backend.Data;
 using Backend.DTO;
 using Backend.Entities;
@@ -20,11 +21,13 @@ namespace Backend.Controllers
         private readonly DataContext _context;
         private readonly TokenService _tokenService;
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UsersController(DataContext context, TokenService tokenService, IUserRepository userRepository)
+        public UsersController(DataContext context, TokenService tokenService, IUserRepository userRepository, IMapper mapper)
         {
             _tokenService = tokenService;
             _userRepository = userRepository;
+            _mapper = mapper;
             _context = context;
         }
 
@@ -32,20 +35,23 @@ namespace Backend.Controllers
         // api/users
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
         {
             var users = await _userRepository.GetUsersAsync();
-            return Ok(users);
+
+            var usersToReturn = _mapper.Map<IEnumerable<MemberDTO>>(users);
+
+            return Ok(usersToReturn);
         }
 
         // Get one user
         // api/users/1
         [Authorize]
         [HttpGet("{username}")]
-        public async Task<ActionResult<User>> GetUser(string username)
+        public async Task<ActionResult<MemberDTO>> GetUser(string username)
         {
             var user = await _userRepository.GetUserByUsernameAsync(username);
-            return user;
+            return _mapper.Map<MemberDTO>(user);
         }
 
         // Register User
