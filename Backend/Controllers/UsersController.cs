@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Backend.Data;
 using Backend.DTO;
 using Backend.Entities;
+using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,12 @@ namespace Backend.Controllers
     {
         private readonly DataContext _context;
         private readonly TokenService _tokenService;
-        public UsersController(DataContext context, TokenService tokenService)
+        private readonly IUserRepository _userRepository;
+
+        public UsersController(DataContext context, TokenService tokenService, IUserRepository userRepository)
         {
             _tokenService = tokenService;
+            _userRepository = userRepository;
             _context = context;
         }
 
@@ -30,17 +34,17 @@ namespace Backend.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
-            return users;
+            var users = await _userRepository.GetUsersAsync();
+            return Ok(users);
         }
 
         // Get one user
         // api/users/1
         [Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<User>> GetUser(string username)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userRepository.GetUserByUsernameAsync(username);
             return user;
         }
 
