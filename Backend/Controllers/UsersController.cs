@@ -27,7 +27,7 @@ namespace Backend.Controllers
         // Get all users
         // api/users
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             var users = await _context.Users.ToListAsync();

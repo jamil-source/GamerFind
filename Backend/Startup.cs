@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Backend.Data;
+using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,7 @@ namespace Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             
             services.AddDbContext<DataContext>(opt =>
             {
