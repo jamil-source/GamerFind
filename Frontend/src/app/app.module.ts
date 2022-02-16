@@ -17,6 +17,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { ErrorComponent } from './error/error.component';
 import { ToastrModule } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MemberCardComponent } from './members/member-card/member-card.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MemberDetailComponent,
     GamerListsComponent,
     MessagesComponent,
-    ErrorComponent
+    ErrorComponent,
+    MemberCardComponent
   ],
   imports: [
     BrowserModule,
