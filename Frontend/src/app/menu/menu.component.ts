@@ -17,7 +17,7 @@ export class MenuComponent implements OnInit {
   loginObj: any = {}
   loggedIn$: Observable<User>;
   registerSwitch:boolean;
-  showNav: boolean = false;
+  showNav: boolean = true;
 
   constructor(private accountService: AccountService, private shared: SharedService, private router: Router, private toastr: ToastrService, private location: Location) { }
 
@@ -25,8 +25,9 @@ export class MenuComponent implements OnInit {
     // check if user is logged in or not
     this.loggedIn$ = this.accountService.loggedInUser$;
     this.shared.registerSwitchState.subscribe(state => this.registerSwitch = state);
-    this.checkWhereRoute();
-    
+    this.shared.hideNavState.subscribe(state => {
+      this.showNav = state
+    })
   }
 
   login() {
@@ -46,17 +47,5 @@ export class MenuComponent implements OnInit {
     this.registerSwitch = !this.registerSwitch;
     this.shared.changeRegisterSwitchState(this.registerSwitch)
   }
-
-  checkWhereRoute(){
-    // close register button depending on where we are at
-    this.router.events.subscribe(event => {
-      if(event instanceof NavigationEnd) { 
-        const url = event.urlAfterRedirects;
-        url === '/' && (this.showNav = true);
-      }
-    })
-  }
-
-
 
 }

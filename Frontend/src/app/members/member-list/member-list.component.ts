@@ -22,7 +22,7 @@ export class MemberListComponent implements OnInit {
       this.members = result
     }, error => {
       console.log(error)
-      this.toastr.error(error.error)
+      this.toastr.error("Unauthorized")
     })
   }
 

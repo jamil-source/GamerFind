@@ -9,7 +9,7 @@
 
             <ul class="navbar-nav main-links mr-auto" *ngIf="loggedIn$ | async">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/members" routerLinkActive="active">MATCHES</a>
+                    <a class="nav-link" routerLink="/members" routerLinkActive="active">MATCH</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/gamer-lists" routerLinkActive="active">GAMER LIST</a>
@@ -20,7 +20,7 @@
             </ul>
 
             <div class="dropdown" *ngIf="(loggedIn$ | async) as user" dropdown>
-                <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.userName | titlecase}}</a>
+                <a class="dropdown-toggle text-light" dropdownToggle>{{user.userName | titlecase}}</a>
                 <a class="dropdown-menu" *dropdownMenu>
                     <a class="dropdown-item">Edit profile</a>
                     <div class="dropdown-divider"></div>
