@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Backend.Data;
+using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
+using Backend.Helpers;
 
 namespace Backend
 {
@@ -32,6 +35,8 @@ namespace Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             
             services.AddDbContext<DataContext>(opt =>
             {

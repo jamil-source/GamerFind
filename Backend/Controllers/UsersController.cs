@@ -4,9 +4,11 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Backend.Data;
 using Backend.DTO;
 using Backend.Entities;
+using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,30 +20,35 @@ namespace Backend.Controllers
     {
         private readonly DataContext _context;
         private readonly TokenService _tokenService;
-        public UsersController(DataContext context, TokenService tokenService)
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+
+        public UsersController(DataContext context, TokenService tokenService, IUserRepository userRepository, IMapper mapper)
         {
             _tokenService = tokenService;
+            _userRepository = userRepository;
+            _mapper = mapper;
             _context = context;
         }
 
         // Get all users
         // api/users
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
-            return users;
+            var users = await _userRepository.GetMembersAsync();
+
+            return Ok(users);
         }
 
         // Get one user
         // api/users/1
         [Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<MemberDTO>> GetUser(string username)
         {
-            var user = await _context.Users.FindAsync(id);
-            return user;
+            return await _userRepository.GetMemberAsync(username);
         }
 
         // Register User
