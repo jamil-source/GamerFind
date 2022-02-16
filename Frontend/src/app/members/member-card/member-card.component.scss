@@ -6,23 +6,59 @@
     background: none;
     .card-img-wrapper {
         border-bottom: 7px solid $standard;
+        overflow: hidden;
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        position: relative;
+        .card-icons-options{
+            position: absolute;
+            bottom: -30%;
+            left: 0;
+            right: 0;
+            margin-right: auto;
+            margin-left: auto;
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            .btn{
+                background-color: $standard;
+                border: none;
+                fa-icon{
+                    color: $standard-background;
+                }
+            }
+        }
         img {
             border-top-right-radius: 20px;
             border-top-left-radius: 20px;
+            transform: scale(1.0, 1.0);
+            transition-duration: 500ms;
+            transition-timing-function: ease-out;
+            &:hover {
+                transform: scale(1.2, 1.2);
+                transition-duration: 500ms;
+                transition-timing-function: ease-out;
+                opacity: 0.7;
+            }
+        }
+        &:hover{
+            .card-icons-options{
+                bottom: 0;
+                opacity: 1;
+            }
         }
     }
-    .card-body{
+    .card-body {
         background-color: black;
         color: white;
         border-bottom-right-radius: 20px;
         border-bottom-left-radius: 20px;
-        fa-icon{
+        fa-icon {
             font-size: 15px;
         }
-        .country{
+        .country {
             font-size: 20px;
         }
-        .game-type{
+        .game-type {
             font-size: 20px;
             color: $standard;
             font-weight: lighter;

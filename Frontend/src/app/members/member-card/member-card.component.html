@@ -1,6 +1,23 @@
 <div class="card mb-4 card-holder mt-4">
     <div class="card-img-wrapper">
         <img src="{{member.photoUrl}}" class="card-img-top">
+        <ul class="list-inline card-icons-options animate text-center">
+            <li class="list-inline-item">
+                <button class="btn btn-primary">
+                    <fa-icon [icon]="faUser"></fa-icon>
+                </button>
+            </li>
+            <li class="list-inline-item">
+                <button class="btn btn-primary">
+                    <fa-icon [icon]="faHeart"></fa-icon>
+                </button>
+            </li>
+            <li class="list-inline-item">
+                <button class="btn btn-primary">
+                    <fa-icon [icon]="faEnvelope"></fa-icon>
+                </button>
+            </li>
+        </ul>
     </div>
     <div class="card-body p-1">
         <h3 class="card-title text-center mb-1">
