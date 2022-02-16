@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 // We need to send token with the requests
 const httpOpt = {
   headers: new HttpHeaders({
-    Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('user'))?.token}`
   })
 }
 
