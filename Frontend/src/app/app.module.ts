@@ -19,6 +19,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [
@@ -44,10 +45,11 @@ import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     }),
-    FontAwesomeModule
+    FontAwesomeModule,
+    TabsModule.forRoot()
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

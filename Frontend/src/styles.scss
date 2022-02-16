@@ -7,7 +7,30 @@
 @import "~ngx-bootstrap/datepicker/bs-datepicker";
 
 // Fonts imported
-@import url('http://fonts.cdnfonts.com/css/vermin-verile');
-@import 'app/shared/styles/colors';
+@import url("http://fonts.cdnfonts.com/css/vermin-verile");
+@import "app/shared/styles/colors";
 
+.nav-tabs > li.open,
+.member-tabset > .nav-tabs > li:hover {
+    border-bottom: 4px solid $standard;
+}
+.member-tabset > .nav-tabs > li.open > a,
+.member-tabset > .nav-tabs > li:hover > a {
+    border: 0;
+    background: none !important;
+    color: $white;
+}
 
+.member-tabset > .nav-tabs > li > a{
+    color: white;
+}
+.member-tabset > .nav-tabs > li.active {
+    border-bottom: 4px solid $white;
+    position: relative;
+}
+
+@media only screen and (max-width: 851px) {
+    .member-tabset > .nav-tabs > li > a{
+        font-size: 13px;
+    }
+}
