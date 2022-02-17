@@ -76,7 +76,7 @@ namespace Backend
 
             app.UseRouting();
 
-            app.UseCors(p => p.AllowAnyHeader().AllowAnyHeader().WithOrigins("http://localhost:4200"));
+            app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200"));
 
             app.UseAuthentication();
 

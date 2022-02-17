@@ -34,11 +34,29 @@
         <tabset class="member-tabset">
             <tab heading="About {{member.userName | titlecase}}">
                 <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMemberInfo()">
+                    <h2 class="mt-2">Game Type</h2>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gameType" id="PVE"
+                            value="PVE" [(ngModel)]="member.gameType"/>
+                        <label class="form-check-label" for="PVE">PVE</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gameType" id="PVP"
+                            value="PVP" [(ngModel)]="member.gameType"/>
+                        <label class="form-check-label" for="PVP">PVP</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gameType" id="PVE&PVP"
+                            value="PVE & PVP" [(ngModel)]="member.gameType"/>
+                        <label class="form-check-label" for="PVE&PVP">PVP & PVE</label>
+                    </div>
                     <h2 class="mt-2">Interests</h2>
-                    <textarea class="form-control" [(ngModel)]="member.interests" name="interests" rows="4"></textarea>
+                    <textarea class="form-control" [(ngModel)]="member.interests" name="interests" rows="5"></textarea>
                     <h2 class="mt-2">Looking for</h2>
                     <textarea class="form-control" [(ngModel)]="member.lookingFor" name="lookingFor"
-                        rows="4"></textarea>
+                        rows="5"></textarea>
                     <h2>Location Details: </h2>
                     <div class="location-wrap">
                         <label for="city">City: </label>
