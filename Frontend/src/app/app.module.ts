@@ -20,6 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
       positionClass: 'toast-bottom-right'
     }),
     FontAwesomeModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    NgxGalleryModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
