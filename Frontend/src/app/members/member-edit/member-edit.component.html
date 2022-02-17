@@ -26,14 +26,14 @@
 
             </div>
             <div class="card-footer">
-                <button class="btn btn-success btn-block">Save</button>
+                <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block">Save</button>
             </div>
         </div>
     </div>
     <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 column2">
         <tabset class="member-tabset">
             <tab heading="About {{member.userName | titlecase}}">
-                <form>
+                <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMemberInfo()">
                     <h2>Description</h2>
                     <textarea class="form-control" [(ngModel)]="member.description" name="description"
                         rows="6"></textarea>
