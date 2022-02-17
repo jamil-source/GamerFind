@@ -1,0 +1,115 @@
+@import "../../shared/styles/colors";
+@import "../../shared/styles/fonts";
+.row {
+    margin-top: 100px;
+    .column1 {
+        width: 450px;
+        .card {
+            background: none;
+            color: white;
+            border-right: 2px solid $standard;
+            border-left: none;
+            border-top: none;
+            border-bottom: none;
+            border-radius: 0;
+            .image-wrap {
+                display: flex;
+                justify-content: center;
+            }
+
+            img {
+                margin: 25px;
+                width: 50%;
+                height: 50%;
+                border-radius: 50%;
+                border: 7px solid $standard;
+            }
+            .card-body {
+                text-align: center;
+                h1 {
+                    color: $standard;
+                    font-size: 50px;
+                }
+                padding: 0 25px;
+                strong {
+                    font-size: 30px;
+                }
+                p {
+                    font-size: 25px;
+                }
+            }
+            .card-footer {
+                padding: 10px 15px;
+                background: none;
+                margin-top: 30px;
+                border-top: none;
+                display: flex;
+                justify-content: center;
+                .btn-group {
+                    width: 300px;
+                    button {
+                        border-radius: 0;
+                        padding: 10px;
+                        font-weight: bold;
+                        font-size: 20px;
+                        border: none;
+                    }
+                    .btn-primary {
+                        background-color: $standard;
+                    }
+                }
+            }
+        }
+    }
+}
+tab {
+    color: white;
+}
+.ngx-gallery{
+    display: inline-block; margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+    .column1 {
+        margin-bottom: 100px;
+        .card {
+            border: none !important;
+        }
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .row {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 365px) {
+    .row {
+        max-width: 350px;
+        display: flex;
+        justify-content: center;
+        .card-footer {
+            padding: 5px 10px;
+            background: none;
+            margin-top: 30px;
+            border-top: none;
+            display: flex;
+            justify-content: center;
+            .btn-group {
+                width: 200px !important;
+                button {
+                    border-radius: 0;
+                    padding: 10px;
+                    font-weight: bold;
+                    font-size: 13px !important;
+                    border: none;
+                }
+                .btn-primary {
+                    background-color: $standard;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<div class="card mb-4 card-holder mt-4">
+    <div class="card-img-wrapper">
+        <img src="{{member.photoUrl || './assets/user.png'}}" class="card-img-top">
+        <ul class="list-inline card-icons-options animate text-center">
+            <li class="list-inline-item">
+                <button class="btn btn-primary" routerLink="/members/{{member.userName}}">
+                    <fa-icon [icon]="faUser"></fa-icon>
+                </button>
+            </li>
+            <li class="list-inline-item">
+                <button class="btn btn-primary">
+                    <fa-icon [icon]="faHeart"></fa-icon>
+                </button>
+            </li>
+            <li class="list-inline-item">
+                <button class="btn btn-primary">
+                    <fa-icon [icon]="faEnvelope"></fa-icon>
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body p-1">
+        <h3 class="card-title text-center mb-1">
+            <fa-icon [icon]="faUser" class="mr-2"></fa-icon>
+            {{member.userName | titlecase}}, {{member.age}}
+        </h3>
+        <p class="card-text text-center country">{{member.country}}</p>
+        <p class="card-text text-center game-type">{{member.gameType}}</p>
+
+    </div>
+</div>

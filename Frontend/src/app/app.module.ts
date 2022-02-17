@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +17,10 @@ import { MessagesComponent } from './messages/messages.component';
 import { ErrorComponent } from './error/error.component';
 import { ToastrModule } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MemberDetailComponent,
     GamerListsComponent,
     MessagesComponent,
-    ErrorComponent
+    ErrorComponent,
+    MemberCardComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +46,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     }),
-    FontAwesomeModule
+    FontAwesomeModule,
+    TabsModule.forRoot(),
+    NgxGalleryModule
   ],
-  providers: [HomeComponent],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
