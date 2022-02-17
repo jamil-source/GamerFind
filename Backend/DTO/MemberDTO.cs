@@ -15,9 +15,8 @@ namespace Backend.DTO
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
         public string GameType { get; set; }
-        public string Description { get; set; }
-        public string LookingFor { get; set; }
         public string Interests { get; set; }
+        public string LookingFor { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public ICollection<PhotoDTO> Photos { get; set; }

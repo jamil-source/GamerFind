@@ -33,14 +33,10 @@
     <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 column2">
         <tabset class="member-tabset">
             <tab heading="About {{member.userName | titlecase}}">
-                <h2>Description</h2>
-                <p>{{member.description}}</p>
-                <h2>Looking for</h2>
-                <p>{{member.lookingFor}}</p>
-            </tab>
-            <tab heading="Interests">
                 <h2>Interests</h2>
                 <p>{{member.interests}}</p>
+                <h2>Looking for</h2>
+                <p>{{member.lookingFor}}</p>
             </tab>
             <tab heading="Photos">
                 <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>

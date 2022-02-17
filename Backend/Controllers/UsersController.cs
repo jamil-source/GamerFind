@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,6 +88,8 @@ namespace Backend.Controllers
             };
         }
 
+        // Login User
+        // api/users/login
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO login)
         {
@@ -114,6 +117,24 @@ namespace Backend.Controllers
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user)
             };
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(MemberUpdateDTO memberUpdateDto)
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            _mapper.Map(memberUpdateDto, user);
+
+            _userRepository.Update(user);
+
+            if(await _userRepository.SaveAllAsync())
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Update failed!");
         }
 
     }

@@ -8,9 +8,8 @@ export interface Member {
     created:     Date;
     lastActive:  Date;
     gameType:    string;
-    description: string;
-    lookingFor:  string;
     interests:   string;
+    lookingFor:  string;
     city:        string;
     country:     string;
     photos:      Photo[];
