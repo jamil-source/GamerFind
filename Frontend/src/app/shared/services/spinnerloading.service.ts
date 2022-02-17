@@ -15,7 +15,7 @@ export class SpinnerloadingService {
     this.spinnerService.show(undefined, {
       type: "ball-fussion",
       bdColor: "rgb(27, 31, 36)",
-      color: "rgb(255, 9, 134, 0)"
+      color: "rgb(255, 9, 134)"
     })
   }
 
