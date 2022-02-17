@@ -32,10 +32,11 @@ export class MemberEditComponent implements OnInit {
   }
 
   updateMemberInfo() {
-    console.log(this.member);
-    this.toastr.success("Update")
-    // reset form state, resets save button to disable
-    this.editForm.reset(this.member)
+    this.memberService.updateMemberInfo(this.member).subscribe(() => {
+      this.toastr.success("Updated!")
+      this.editForm.reset(this.member)
+    })
+
   }
 
 }
