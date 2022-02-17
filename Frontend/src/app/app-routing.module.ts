@@ -8,12 +8,13 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { UnsavedChangesGuard } from './shared/guards/unsaved-changes.guard';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'members', component: MemberListComponent, canActivate: [AuthGuard]},
   {path: 'members/:userName', component: MemberDetailComponent, canActivate: [AuthGuard]},
-  {path: 'member/edit', component: MemberEditComponent, canActivate: [AuthGuard]},
+  {path: 'member/edit', component: MemberEditComponent, canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard]},
   {path: 'gamer-lists', component: GamerListsComponent, canActivate: [AuthGuard]},
   {path: 'messages', component: MessagesComponent, canActivate: [AuthGuard]},
   {path: '**', component: ErrorComponent, pathMatch: 'full'},
