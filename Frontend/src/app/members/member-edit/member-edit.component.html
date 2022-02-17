@@ -1,1 +1,60 @@
-<p>member-edit works!</p>
+<div class="row" *ngIf="member">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 column1">
+        <div class="card">
+            <div class="header">
+                <h1>Profile</h1>
+            </div>
+            <div class="image-wrap">
+                <img src="{{member.photoUrl || './assets/user.png'}}" card="card-img-top img-thumbnail">
+            </div>
+            <div class="card-body">
+                <div class="wrap-body">
+                    <h1>{{member.userName| titlecase}}</h1>
+                    <div>
+                        <strong>Location:</strong>
+                        <p>{{member.city}}, {{member.country}}</p>
+                    </div>
+                    <div>
+                        <strong>Age:</strong>
+                        <p>{{member.age}}</p>
+                    </div>
+                    <div>
+                        <strong>Member since:</strong>
+                        <p>{{member.created}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-success btn-block">Save</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 column2">
+        <tabset class="member-tabset">
+            <tab heading="About {{member.userName | titlecase}}">
+                <form>
+                    <h2>Description</h2>
+                    <textarea class="form-control" [(ngModel)]="member.description" name="description"
+                        rows="6"></textarea>
+                    <h2 class="mt-2">Looking for</h2>
+                    <textarea class="form-control" [(ngModel)]="member.lookingFor" name="lookingFor"
+                        rows="4"></textarea>
+                    <h2 class="mt-2">Interests</h2>
+                    <textarea class="form-control" [(ngModel)]="member.interests" name="interests" rows="4"></textarea>
+                    <h2>Location Details: </h2>
+                    <div class="location-wrap">
+                        <label for="city">City: </label>
+                        <input [(ngModel)]="member.city" type="text" name="city" class="form-control mx-2 location">
+                        <label for="city">Country: </label>
+                        <input [(ngModel)]="member.country" type="text" name="country"
+                            class="form-control mx-2 location">
+                    </div>
+                </form>
+            </tab>
+            <tab heading="Photos Change">
+                <p>Photo edit</p>
+            </tab>
+        </tabset>
+    </div>
+</div>

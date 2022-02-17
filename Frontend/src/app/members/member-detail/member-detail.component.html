@@ -6,18 +6,20 @@
             </div>
 
             <div class="card-body">
-                <h1>{{member.userName| titlecase}}</h1>
-                <div>
-                    <strong>Location:</strong>
-                    <p>{{member.city}}, {{member.country}}</p>
-                </div>
-                <div>
-                    <strong>Age:</strong>
-                    <p>{{member.age}}</p>
-                </div>
-                <div>
-                    <strong>Last active:</strong>
-                    <p>{{member.created}}</p>
+                <div class="wrap-body">
+                    <h1>{{member.userName| titlecase}}</h1>
+                    <div>
+                        <strong>Location:</strong>
+                        <p>{{member.city}}, {{member.country}}</p>
+                    </div>
+                    <div>
+                        <strong>Age:</strong>
+                        <p>{{member.age}}</p>
+                    </div>
+                    <div>
+                        <strong>Last active:</strong>
+                        <p>{{member.created}}</p>
+                    </div>
                 </div>
             </div>
             <div class="card-footer">
@@ -28,16 +30,16 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 column2">
         <tabset class="member-tabset">
             <tab heading="About {{member.userName | titlecase}}">
-                <h4>Description</h4>
+                <h2>Description</h2>
                 <p>{{member.description}}</p>
-                <h4>Looking for</h4>
+                <h2>Looking for</h2>
                 <p>{{member.lookingFor}}</p>
             </tab>
             <tab heading="Interests">
-                <h4>Interests</h4>
+                <h2>Interests</h2>
                 <p>{{member.interests}}</p>
             </tab>
             <tab heading="Photos">
