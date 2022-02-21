@@ -175,5 +175,40 @@ namespace Backend.Controllers
             return BadRequest("Photo could not be added!");
         }
 
+        [HttpPut("main-photo/{photoId}")]
+        public async Task<ActionResult> SetPhotoToMain(int photoId)
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            var photo = user.Photos.FirstOrDefault(photo => photo.Id == photoId);
+
+            if(photo.MainPhoto)
+            {
+                return BadRequest("Already main!");
+            }
+
+            var currentMain = user.Photos.FirstOrDefault(p => p.MainPhoto);
+
+            // Set current main photo to false
+
+            if(currentMain != null)
+            {
+                currentMain.MainPhoto = false;
+            }
+
+            // Set new one to true
+
+            photo.MainPhoto = true;
+
+            if(await _userRepository.SaveAllAsync())
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Can not set main photo!");
+        }
+
     }
 }
