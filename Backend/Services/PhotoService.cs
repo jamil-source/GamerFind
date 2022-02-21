@@ -25,14 +25,31 @@ namespace Backend.Services
             _cloudinary = new Cloudinary(account);
         }
 
-        public Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
+        public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
         {
-            throw new NotImplementedException();
+            var uploadResult = new ImageUploadResult();
+            
+            if(file.Length > 0)
+            {
+                using var stream = file.OpenReadStream();
+                var paramsUpload = new ImageUploadParams
+                {
+                    File = new FileDescription(file.FileName, stream),
+                    Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face")
+                };
+                uploadResult = await _cloudinary.UploadAsync(paramsUpload);
+            }
+
+            return uploadResult;
         }
 
-        public Task<DeletionResult> DeletePhotoAsync(string publicId)
+        public async Task<DeletionResult> DeletePhotoAsync(string publicId)
         {
-            throw new NotImplementedException();
+            var paramsDelete = new DeletionParams(publicId);
+
+            var result = await _cloudinary.DestroyAsync(paramsDelete);
+
+            return result;
         }
     }
 }
