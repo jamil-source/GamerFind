@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { faTrash, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { MembersService } from 'src/app/shared/services/members.service';
 import { Photo } from 'src/app/models/Photo';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-member-photo-handler',
@@ -25,7 +26,7 @@ export class MemberPhotoHandlerComponent implements OnInit {
   faCheck = faCheck;
 
 
-  constructor(private accountService: AccountService, private memberService: MembersService) {
+  constructor(private accountService: AccountService, private memberService: MembersService, private toastr: ToastrService) {
     this.accountService.loggedInUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -48,19 +49,19 @@ export class MemberPhotoHandlerComponent implements OnInit {
       file.withCredentials = false;
     }
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      if(response) {
+      if (response) {
         const photo = JSON.parse(response);
         this.member.photos.push(photo);
       }
     }
   }
 
-  fileOverBase(event){
+  fileOverBase(event) {
     this.hasBaseDropZoneOver = event;
   }
 
-  putMainPhoto(photo: Photo){
-    this.memberService.updateMainPhoto(photo.id).subscribe(()=> {
+  putMainPhoto(photo: Photo) {
+    this.memberService.updateMainPhoto(photo.id).subscribe(() => {
       this.user.photoUrl = photo.url;
       this.accountService.setLoggedInUser(this.user);
       this.member.photoUrl = photo.url;
@@ -68,6 +69,16 @@ export class MemberPhotoHandlerComponent implements OnInit {
         p.mainPhoto && (p.mainPhoto = false);
         p.id === photo.id && (p.mainPhoto = true);
       })
+    }, err => {
+      this.toastr.error(err.error)
+    })
+  }
+
+  deletePhoto(photoId: number) {
+    this.memberService.deletePhoto(photoId).subscribe(() => {
+      this.member.photos = this.member.photos.filter(photo => photo.id !== photoId);
+    }, err => {
+      this.toastr.error(err.error)
     })
   }
 

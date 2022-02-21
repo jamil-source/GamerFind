@@ -71,7 +71,7 @@
                 <button class="btn btn-sm btn-primary main" [disabled]="photo.mainPhoto" (click)="putMainPhoto(photo)">
                     <fa-icon [icon]="faCheck"></fa-icon>
                 </button>
-                <button class="btn btn-sm btn-danger delete">
+                <button class="btn btn-sm btn-danger delete" [disabled]="photo.mainPhoto" (click)="deletePhoto(photo.id)">
                     <fa-icon [icon]="faTrash"></fa-icon>
                 </button>
             </div>
