@@ -23,9 +23,11 @@ namespace Backend.Controllers
         private readonly TokenService _tokenService;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IPhotoService _photoService;
 
-        public UsersController(DataContext context, TokenService tokenService, IUserRepository userRepository, IMapper mapper)
+        public UsersController(DataContext context, TokenService tokenService, IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
         {
+            _photoService = photoService;
             _tokenService = tokenService;
             _userRepository = userRepository;
             _mapper = mapper;
@@ -129,12 +131,48 @@ namespace Backend.Controllers
 
             _userRepository.Update(user);
 
-            if(await _userRepository.SaveAllAsync())
+            if (await _userRepository.SaveAllAsync())
             {
                 return NoContent();
             }
 
             return BadRequest("Update failed!");
+        }
+
+        [HttpPost("upload-photo")]
+        public async Task<ActionResult<PhotoDTO>> UploadPhoto(IFormFile file)
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            var result = await _photoService.AddPhotoAsync(file);
+
+            // If we get error from photoservice
+            if (result.Error != null)
+            {
+                return BadRequest(result.Error.Message);
+            }
+
+            // If no errors
+            var photo = new Photo
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId
+            };
+
+            if (user.Photos.Count == 0)
+            {
+                photo.MainPhoto = true;
+            }
+
+            user.Photos.Add(photo);
+
+            if (await _userRepository.SaveAllAsync())
+            {
+                return _mapper.Map<PhotoDTO>(photo);
+            }
+            return BadRequest("Photo could not be added!");
         }
 
     }
