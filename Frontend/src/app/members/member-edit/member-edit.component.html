@@ -1,0 +1,75 @@
+<div class="row" *ngIf="member">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 column1">
+        <div class="card">
+            <div class="header">
+                <h1>Profile</h1>
+            </div>
+            <div class="image-wrap">
+                <img src="{{member.photoUrl || './assets/user.png'}}" card="card-img-top img-thumbnail">
+            </div>
+            <div class="card-body">
+                <div class="wrap-body">
+                    <h1>{{member.userName| titlecase}}</h1>
+                    <div>
+                        <strong>Location:</strong>
+                        <p>{{member.city}}, {{member.country}}</p>
+                    </div>
+                    <div>
+                        <strong>Age:</strong>
+                        <p>{{member.age}}</p>
+                    </div>
+                    <div>
+                        <strong>Member since:</strong>
+                        <p>{{member.created}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block">Save</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 column2">
+        <tabset class="member-tabset">
+            <tab heading="About {{member.userName | titlecase}}">
+                <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMemberInfo()">
+                    <h2 class="mt-2">Game Type</h2>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gameType" id="PVE"
+                            value="PVE" [(ngModel)]="member.gameType"/>
+                        <label class="form-check-label" for="PVE">PVE</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gameType" id="PVP"
+                            value="PVP" [(ngModel)]="member.gameType"/>
+                        <label class="form-check-label" for="PVP">PVP</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gameType" id="PVE&PVP"
+                            value="PVE & PVP" [(ngModel)]="member.gameType"/>
+                        <label class="form-check-label" for="PVE&PVP">PVP & PVE</label>
+                    </div>
+                    <h2 class="mt-2">Interests</h2>
+                    <textarea class="form-control" [(ngModel)]="member.interests" name="interests" rows="5"></textarea>
+                    <h2 class="mt-2">Looking for</h2>
+                    <textarea class="form-control" [(ngModel)]="member.lookingFor" name="lookingFor"
+                        rows="5"></textarea>
+                    <h2>Location Details: </h2>
+                    <div class="location-wrap">
+                        <label for="city">City: </label>
+                        <input [(ngModel)]="member.city" type="text" name="city" class="form-control mx-2 location">
+                        <label for="city">Country: </label>
+                        <input [(ngModel)]="member.country" type="text" name="country"
+                            class="form-control mx-2 location">
+                    </div>
+                </form>
+            </tab>
+            <tab heading="Photos Change">
+                <p>Photo edit</p>
+            </tab>
+        </tabset>
+    </div>
+</div>
