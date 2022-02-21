@@ -185,7 +185,7 @@ namespace Backend.Controllers
 
             var photo = user.Photos.FirstOrDefault(photo => photo.Id == photoId);
 
-            if(photo.MainPhoto)
+            if (photo.MainPhoto)
             {
                 return BadRequest("Already main!");
             }
@@ -194,7 +194,7 @@ namespace Backend.Controllers
 
             // Set current main photo to false
 
-            if(currentMain != null)
+            if (currentMain != null)
             {
                 currentMain.MainPhoto = false;
             }
@@ -203,12 +203,48 @@ namespace Backend.Controllers
 
             photo.MainPhoto = true;
 
-            if(await _userRepository.SaveAllAsync())
+            if (await _userRepository.SaveAllAsync())
             {
                 return NoContent();
             }
 
             return BadRequest("Can not set main photo!");
+        }
+
+        [HttpDelete("delete-photo/{photoId}")]
+        public async Task<ActionResult> DeletePhoto(int photoId)
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+
+            if (photo == null)
+            {
+                return NotFound();
+            }
+
+            if (photo.MainPhoto)
+            {
+                return BadRequest("Can not delete main photo!");
+            }
+
+            if (photo.PublicId != null)
+            {
+                var response = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if (response.Error != null)
+                {
+                    return BadRequest(response.Error.Message);
+                }
+            }
+            user.Photos.Remove(photo);
+
+            if(await _userRepository.SaveAllAsync())
+            {
+                return Ok();
+            }
+            return BadRequest("Could not delete photo!");
         }
 
     }
