@@ -20,11 +20,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
 import { MemberPhotoHandlerComponent } from './members/member-photo-handler/member-photo-handler.component';
+import { FileUploadModule } from 'ng2-file-upload';
+
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { MemberPhotoHandlerComponent } from './members/member-photo-handler/memb
     FontAwesomeModule,
     TabsModule.forRoot(),
     NgxGalleryModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    FileUploadModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
