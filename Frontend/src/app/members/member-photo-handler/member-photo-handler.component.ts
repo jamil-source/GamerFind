@@ -5,6 +5,7 @@ import { Member } from 'src/app/models/Member';
 import { User } from 'src/app/models/User';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { environment } from 'src/environments/environment';
+import { faTrash, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-member-photo-handler',
@@ -16,6 +17,11 @@ export class MemberPhotoHandlerComponent implements OnInit {
   uploader: FileUploader;
   baseUrl = environment.apiUrl;
   loggedInuser: User;
+  hasBaseDropZoneOver = false;
+  faUpload = faUpload;
+  faTrash = faTrash;
+  faCheck = faCheck;
+
 
   constructor(private accountService: AccountService) {
     this.accountService.loggedInUser$.pipe(take(1)).subscribe(user => this.loggedInuser = user);
@@ -45,6 +51,10 @@ export class MemberPhotoHandlerComponent implements OnInit {
         this.member.photos.push(photo);
       }
     }
+  }
+
+  fileOverBase(event){
+    this.hasBaseDropZoneOver = event;
   }
 
 }
