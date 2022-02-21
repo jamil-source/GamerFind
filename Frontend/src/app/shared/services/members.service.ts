@@ -22,4 +22,8 @@ export class MembersService {
   updateMemberInfo(member: Member){
      return this.http.put(`${this.baseUrl}users`, member)
   }
+
+  updateMainPhoto(photoId: number){
+    return this.http.put(`${this.baseUrl}users/main-photo/${photoId}`, {});
+  }
 }

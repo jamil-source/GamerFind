@@ -6,6 +6,8 @@ import { User } from 'src/app/models/User';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { environment } from 'src/environments/environment';
 import { faTrash, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { MembersService } from 'src/app/shared/services/members.service';
+import { Photo } from 'src/app/models/Photo';
 
 @Component({
   selector: 'app-member-photo-handler',
@@ -16,15 +18,15 @@ export class MemberPhotoHandlerComponent implements OnInit {
   @Input() member: Member;
   uploader: FileUploader;
   baseUrl = environment.apiUrl;
-  loggedInuser: User;
+  user: User;
   hasBaseDropZoneOver = false;
   faUpload = faUpload;
   faTrash = faTrash;
   faCheck = faCheck;
 
 
-  constructor(private accountService: AccountService) {
-    this.accountService.loggedInUser$.pipe(take(1)).subscribe(user => this.loggedInuser = user);
+  constructor(private accountService: AccountService, private memberService: MembersService) {
+    this.accountService.loggedInUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
@@ -34,7 +36,7 @@ export class MemberPhotoHandlerComponent implements OnInit {
   photoUploader() {
     this.uploader = new FileUploader({
       url: `${this.baseUrl}users/upload-photo`,
-      authToken: `Bearer ${this.loggedInuser.token}`,
+      authToken: `Bearer ${this.user.token}`,
       isHTML5: true,
       allowedFileType: ['image'],
       removeAfterUpload: true,
@@ -55,6 +57,18 @@ export class MemberPhotoHandlerComponent implements OnInit {
 
   fileOverBase(event){
     this.hasBaseDropZoneOver = event;
+  }
+
+  putMainPhoto(photo: Photo){
+    this.memberService.updateMainPhoto(photo.id).subscribe(()=> {
+      this.user.photoUrl = photo.url;
+      this.accountService.setLoggedInUser(this.user);
+      this.member.photoUrl = photo.url;
+      this.member.photos.forEach(p => {
+        p.mainPhoto && (p.mainPhoto = false);
+        p.id === photo.id && (p.mainPhoto = true);
+      })
+    })
   }
 
 }
