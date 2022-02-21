@@ -1,1 +1,9 @@
-<p>member-photo-handler works!</p>
+<div class="row">
+    <div class="col-2" *ngFor="let photo of member.photos">
+        <img src="{{photo.url}}" class="img-thumbnail">
+        <div class="text-center p-1">
+            <button class="btn btn-sm btn-primary main">Main</button>
+            <button class="btn btn-sm btn-danger delete">Delete</button>
+        </div>
+    </div>
+</div>
