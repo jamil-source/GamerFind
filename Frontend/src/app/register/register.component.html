@@ -15,28 +15,36 @@
         </label>
     </div>
 
-    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['username']" [label]='"Username"' [type]='"text"'>
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['username']" [label]='"Username"'
+        [type]='"text"'>
     </app-form-text-handler>
 
     <div class="form-group">
-        <input type="text" class="register" [class.is-invalid]="regForm.get('dateOfBirth').errors && regForm.get('dateOfBirth').touched" formControlName="dateOfBirth" placeholder="Date of birth" bsDatepicker [bsConfig]="bsConfig" [maxDate]="maxDate">
+        <input type="text" class="register"
+            [class.is-invalid]="regForm.get('dateOfBirth').errors && regForm.get('dateOfBirth').touched"
+            formControlName="dateOfBirth" placeholder="Date of birth" bsDatepicker [bsConfig]="bsConfig"
+            [maxDate]="maxDate">
         <div class="invalid-feedback" *ngIf="regForm.get('dateOfBirth').hasError('required')">Birthday is required</div>
     </div>
 
-    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['country']" [label]='"Country"' [type]='"text"'>
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['country']" [label]='"Country"'
+        [type]='"text"'>
     </app-form-text-handler>
 
-    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['city']" [label]='"City"' [type]='"text"'>
-    </app-form-text-handler>
-    
-    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['email']" [label]='"Email"' [type]='"email"'>
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['city']" [label]='"City"'
+        [type]='"text"'>
     </app-form-text-handler>
 
-    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['password']" [label]='"Password"' [type]='"password"'>
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['email']" [label]='"Email"'
+        [type]='"email"'>
     </app-form-text-handler>
 
-    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['confirmPassword']" [label]='"Confirm Password"'
-        [type]='"password"'></app-form-text-handler>
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['password']" [label]='"Password"'
+        [type]='"password"'>
+    </app-form-text-handler>
+
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['confirmPassword']"
+        [label]='"Confirm Password"' [type]='"password"'></app-form-text-handler>
 
     <div class="form-group text-center">
         <button class="btn btn-success mr-2" type="submit">REGISTER</button>
