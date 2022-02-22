@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../shared/services/account.service';
 
@@ -13,10 +14,19 @@ export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
   regForm: FormGroup;
+  maxDate: Date;
+  bsConfig: Partial<BsDatepickerConfig>;
 
-  constructor(private accountService: AccountService, private toastr: ToastrService) { }
+  constructor(private accountService: AccountService, private toastr: ToastrService) {
+    // Datepicker configuration
+    this.bsConfig = {
+      dateInputFormat: 'DD MMMM YYYY'
+    }
+  }
 
   ngOnInit(): void {
+    this.maxDate = new Date();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() -18)
     this.regForm = new FormGroup({
       gameType: new FormControl('PVE'),
       username: new FormControl('', Validators.required),
@@ -29,9 +39,9 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  checkPwdMatch(match: string): ValidatorFn{
+  checkPwdMatch(match: string): ValidatorFn {
     return (control: AbstractControl) => {
-      return control?.value === control?.parent?.controls[match].value ? null : {matching: true}
+      return control?.value === control?.parent?.controls[match].value ? null : { matching: true }
     }
   }
 

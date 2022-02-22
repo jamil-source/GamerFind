@@ -26,6 +26,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
 import { MemberPhotoHandlerComponent } from './members/member-photo-handler/member-photo-handler.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormTextHandlerComponent } from './shared/form-handler/form-text-handler/form-text-handler.component';
 
 
@@ -61,6 +62,7 @@ import { FormTextHandlerComponent } from './shared/form-handler/form-text-handle
     NgxGalleryModule,
     NgxSpinnerModule,
     FileUploadModule,
+    BsDatepickerModule.forRoot(),
     ReactiveFormsModule
   ],
   providers: [
