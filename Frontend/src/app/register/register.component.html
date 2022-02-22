@@ -1,4 +1,4 @@
-<form [formGroup]="regForm" class="form-register-wrapper" (ngSubmit)="register()">
+<form [formGroup]="regForm" class="form-register-wrapper" (ngSubmit)="regForm.valid && register()">
     <h2>SIGN UP</h2>
     <hr>
 
@@ -47,7 +47,7 @@
         [label]='"Confirm Password"' [type]='"password"'></app-form-text-handler>
 
     <div class="form-group text-center">
-        <button class="btn btn-success mr-2" type="submit">REGISTER</button>
+        <button class="btn btn-success mr-2" [disabled]="!regForm.valid" type="submit">REGISTER</button>
         <button class="btn btn-danger mr-2" (click)="cancel()" type="button">Cancel</button>
     </div>
 </form>

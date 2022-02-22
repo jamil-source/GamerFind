@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../shared/services/account.service';
@@ -12,12 +13,11 @@ import { AccountService } from '../shared/services/account.service';
 
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-  model: any = {};
   regForm: FormGroup;
   maxDate: Date;
   bsConfig: Partial<BsDatepickerConfig>;
 
-  constructor(private accountService: AccountService, private toastr: ToastrService) {
+  constructor(private accountService: AccountService, private toastr: ToastrService, private router: Router) {
     // Datepicker configuration
     this.bsConfig = {
       dateInputFormat: 'DD MMMM YYYY'
@@ -48,9 +48,8 @@ export class RegisterComponent implements OnInit {
 
 
   register() {
-    this.accountService.register(this.model).subscribe(res => {
-      console.log(res);
-      this.cancel();
+    this.accountService.register(this.regForm.value).subscribe(res => {
+      this.router.navigateByUrl('/members');
     }, err => {
       let errors = err.error.errors;
       let errorMessages: string[] = []
