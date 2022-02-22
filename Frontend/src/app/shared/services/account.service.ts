@@ -40,7 +40,7 @@ export class AccountService {
     this.loggedInUserSrc.next(user);
   }
 
-  logout() {
+  logOut() {
     localStorage.removeItem('user');
     this.loggedInUserSrc.next(null)
   }

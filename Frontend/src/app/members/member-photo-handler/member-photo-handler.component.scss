@@ -1,0 +1,66 @@
+@import "../../shared/styles/colors";
+@import "../../shared/styles/fonts";
+
+.wraper {
+    display: flex;
+    flex-direction: column;
+    .images {
+        margin-bottom: 20px;
+        .photo-item {
+            margin-top: 30px;
+            button {
+                margin-top: 6px;
+                margin-left: 6px;
+            }
+        }
+    }
+    .photo-add-wraper {
+        margin-top: 50px;
+        input[type="file"] {
+            color: transparent;
+        }
+        .my-drop-zone {
+            background-color: $standard;
+        }
+        table{
+            color: $white;
+        }
+        .upload-info{
+            button{
+                margin-left: 6px !important;
+                margin-top: 6px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 910px) {
+    .upload-info{
+        button{
+            font-size: 12px !important;
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .images {
+        button {
+            padding: 10px 40px;
+            fa-icon{
+                font-size: 15px
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 320px) {
+    .images {
+        button {
+            padding:5px 20px;
+            fa-icon{
+                font-size: 10px
+            }
+        }
+    }
+}

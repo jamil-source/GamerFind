@@ -35,6 +35,18 @@
             box-shadow: 0 4px $standard;
         }
     }
+    .dropdown{
+        .text-light{
+            color: $standard !important;
+        }
+        img{
+            max-height: 60px;
+            border: 2px solid $standard;
+            border-radius: 50%;
+            display: inline;
+            margin-right: 5px;
+        }
+    }
     .dropdown-toggle {
         font-size: 20px;
     }
@@ -63,6 +75,7 @@
         }
     }
 }
+
 
 @media only screen and (max-width: 767px) {
     .navbar {

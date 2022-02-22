@@ -38,8 +38,8 @@ export class MenuComponent implements OnInit {
     })
   }
 
-  logout() {
-    this.accountService.logout();
+  logOut() {
+    this.accountService.logOut();
     this.router.navigateByUrl('/')
   }
 
