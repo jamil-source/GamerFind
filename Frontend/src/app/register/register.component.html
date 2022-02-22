@@ -1,20 +1,20 @@
-<form [formGroup]="regForm" class ="form-register-wrapper" (ngSubmit)="register()">
+<form [formGroup]="regForm" class="form-register-wrapper" (ngSubmit)="register()">
     <h2>SIGN UP</h2>
     <hr>
-    <div class="form-group">
-        <input type="text" class="form-control" formControlName="username" placeholder="Username">
-    </div>
-    <div class="form-group">
-        <input type="email" class="form-control" formControlName="email"  placeholder="Email">
-    </div>
-    <div class="form-group">
-        <input type="password" class="form-control" formControlName="password"  placeholder="Password">
-    </div>
-    <div class="form-group">
-        <input type="password" class="form-control" formControlName="confirmPassword"  placeholder="Confirm Password">
-    </div>
+    <app-form-text-handler [formControl]="regForm.controls['username']" [label]='"Username"' [type]='"text"'>
+    </app-form-text-handler>
+    
+    <app-form-text-handler [formControl]="regForm.controls['email']" [label]='"Email"' [type]='"email"'>
+    </app-form-text-handler>
+
+    <app-form-text-handler [formControl]="regForm.controls['password']" [label]='"Password"' [type]='"password"'>
+    </app-form-text-handler>
+
+    <app-form-text-handler [formControl]="regForm.controls['confirmPassword']" [label]='"Confirm Password"'
+        [type]='"password"'></app-form-text-handler>
+
     <div class="form-group text-center">
-        <button class="btn btn-success mr-2" type="submit" >REGISTER</button>
+        <button class="btn btn-success mr-2" type="submit">REGISTER</button>
         <button class="btn btn-danger mr-2" (click)="cancel()" type="button">Cancel</button>
     </div>
 </form>

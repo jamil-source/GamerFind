@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../shared/services/account.service';
 
@@ -8,6 +8,7 @@ import { AccountService } from '../shared/services/account.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
+
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
@@ -20,15 +21,16 @@ export class RegisterComponent implements OnInit {
       username: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
-      confirmPassword: new FormControl('', Validators.required),
-    }, {validators: this.checkPasswords})
+      confirmPassword: new FormControl('', [Validators.required, this.checkPwdMatch('password')]),
+    })
   }
 
-  checkPasswords: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
-    let pass = group.get('password').value;
-    let confirmPass = group.get('confirmPassword').value
-    return pass === confirmPass ? null : { notSame: true }
+  checkPwdMatch(match: string): ValidatorFn{
+    return (control: AbstractControl) => {
+      return control?.value === control?.parent?.controls[match].value ? null : {matching: true}
+    }
   }
+
 
 
   register() {

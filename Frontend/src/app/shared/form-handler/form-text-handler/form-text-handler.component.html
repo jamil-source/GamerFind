@@ -1,0 +1,7 @@
+<div class="form-group">
+    <input class="form-control" [formControl]="ngControl.control"  placeholder="Email" [class.is-invalid] ="ngControl.touched && ngControl.invalid" type={{type}} placeholder={{label}}>
+    <div class="invalid-feedback" *ngIf="ngControl.control.errors?.required" >Enter {{label}}</div>
+    <div class="invalid-feedback" *ngIf="ngControl.control.errors?.minlength" >{{label}} must be atleast {{ngControl.control.errors?.minlength["requiredLength"]}} characters</div> 
+    <div class="invalid-feedback" *ngIf="ngControl.control.errors?.email" >Enter a valid email</div> 
+    <div class="invalid-feedback" *ngIf="ngControl.control.errors?.matching" >Confirmed password must match with password</div>    
+</div>

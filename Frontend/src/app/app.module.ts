@@ -26,6 +26,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
 import { MemberPhotoHandlerComponent } from './members/member-photo-handler/member-photo-handler.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { FormTextHandlerComponent } from './shared/form-handler/form-text-handler/form-text-handler.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     ErrorComponent,
     MemberCardComponent,
     MemberEditComponent,
-    MemberPhotoHandlerComponent
+    MemberPhotoHandlerComponent,
+    FormTextHandlerComponent
   ],
   imports: [
     BrowserModule,
