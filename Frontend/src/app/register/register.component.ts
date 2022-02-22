@@ -20,7 +20,6 @@ export class RegisterComponent implements OnInit {
   constructor(private accountService: AccountService, private toastr: ToastrService) {
     // Datepicker configuration
     this.bsConfig = {
-      
       dateInputFormat: 'DD MMMM YYYY'
     }
   }

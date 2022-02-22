@@ -9,11 +9,25 @@ namespace Backend.DTO
     public class RegisterDTO
     {
         [Required]
+        public string GameType { get; set; }
+
+        [Required]
         public string UserName { get; set; }
+
         [Required]
         [RegularExpression("^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9]+)*\\.([a-z]{2,4})$",
          ErrorMessage = "Invalid mail format.")]
         public string Email { get; set; }
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        public string Country { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
         [Required]
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
         [DataType(DataType.Password)]
