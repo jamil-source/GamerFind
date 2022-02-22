@@ -18,7 +18,11 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.regForm = new FormGroup({
+      gameType: new FormControl('PVE'),
       username: new FormControl('', Validators.required),
+      dateOfBirth: new FormControl('', Validators.required),
+      country: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
       confirmPassword: new FormControl('', [Validators.required, this.checkPwdMatch('password')]),

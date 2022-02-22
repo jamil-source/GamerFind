@@ -1,16 +1,39 @@
 <form [formGroup]="regForm" class="form-register-wrapper" (ngSubmit)="register()">
     <h2>SIGN UP</h2>
     <hr>
-    <app-form-text-handler [formControl]="regForm.controls['username']" [label]='"Username"' [type]='"text"'>
+
+    <div class="form-group radio-group">
+        <label class="control-label">I Play:</label>
+        <label class="radio-inline">
+            <input type="radio" value="PVE" formControlName="gameType"> PVE
+        </label>
+        <label class="radio-inline">
+            <input type="radio" value="PVP" formControlName="gameType"> PVP
+        </label>
+        <label class="radio-inline">
+            <input type="radio" value="PVP & PVE" formControlName="gameType"> PVP & PVE
+        </label>
+    </div>
+
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['username']" [label]='"Username"' [type]='"text"'>
+    </app-form-text-handler>
+
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['dateOfBirth']" [label]='"Birth date"' [type]='"text"'>
+    </app-form-text-handler>
+
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['country']" [label]='"Country"' [type]='"text"'>
+    </app-form-text-handler>
+
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['city']" [label]='"City"' [type]='"text"'>
     </app-form-text-handler>
     
-    <app-form-text-handler [formControl]="regForm.controls['email']" [label]='"Email"' [type]='"email"'>
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['email']" [label]='"Email"' [type]='"email"'>
     </app-form-text-handler>
 
-    <app-form-text-handler [formControl]="regForm.controls['password']" [label]='"Password"' [type]='"password"'>
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['password']" [label]='"Password"' [type]='"password"'>
     </app-form-text-handler>
 
-    <app-form-text-handler [formControl]="regForm.controls['confirmPassword']" [label]='"Confirm Password"'
+    <app-form-text-handler [class]='"register"' [formControl]="regForm.controls['confirmPassword']" [label]='"Confirm Password"'
         [type]='"password"'></app-form-text-handler>
 
     <div class="form-group text-center">
