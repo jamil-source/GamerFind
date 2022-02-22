@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../shared/services/account.service';
 
@@ -17,11 +17,17 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.regForm = new FormGroup({
-      username: new FormControl(),
-      email: new FormControl(),
-      password: new FormControl(),
-      confirmPassword: new FormControl(),
-    })
+      username: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]),
+      confirmPassword: new FormControl('', Validators.required),
+    }, {validators: this.checkPasswords})
+  }
+
+  checkPasswords: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
+    let pass = group.get('password').value;
+    let confirmPass = group.get('confirmPassword').value
+    return pass === confirmPass ? null : { notSame: true }
   }
 
 
