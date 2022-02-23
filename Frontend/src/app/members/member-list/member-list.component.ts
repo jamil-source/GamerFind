@@ -16,8 +16,6 @@ export class MemberListComponent implements OnInit {
   pageNumber = 1;
   pageSize = 12;
 
-
-
   constructor(private memberService: MembersService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -32,11 +30,16 @@ export class MemberListComponent implements OnInit {
       }
       this.members = this.paginated.result
       this.pagination = this.paginated.pagination;
-
     }, error => {
       console.log(error)
       this.toastr.error("Unauthorized")
     })
+  }
+
+  changePage(event){
+    console.log(event)
+    this.pageNumber = event.page;
+    this.getAllMembers();
   }
 
 }

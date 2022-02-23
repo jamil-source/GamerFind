@@ -1,6 +1,32 @@
+@import "../../shared/styles/colors";
+@import "../../shared/styles/fonts";
 @media only screen and (max-width: 767px) {
-    .col-md-3{
+    .col-md-3 {
         display: flex;
         justify-content: center;
     }
 }
+
+.pagination-item::ng-deep ul{
+    flex-wrap: wrap;
+}
+
+.pagination-item::ng-deep .page-item.active .page-link {
+    z-index: 1;
+    color: #ffffff;
+    background-color: $standard !important;
+}
+
+.pagination-item::ng-deep .page-item .page-link {
+    z-index: 1;
+    color: black;
+    border: none;
+    margin: 0 5px;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+
+
+
