@@ -9,6 +9,8 @@ using AutoMapper;
 using Backend.Data;
 using Backend.DTO;
 using Backend.Entities;
+using Backend.Extensions;
+using Backend.Helpers;
 using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -38,10 +40,11 @@ namespace Backend.Controllers
         // api/users
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery]UserParams userParams)
         {
-            var users = await _userRepository.GetMembersAsync();
+            var users = await _userRepository.GetMembersAsync(userParams);
 
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
             return Ok(users);
         }
 
@@ -124,6 +127,7 @@ namespace Backend.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> UpdateUser(MemberUpdateDTO memberUpdateDto)
         {
             var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -142,6 +146,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost("upload-photo")]
+        [Authorize]
         public async Task<ActionResult<PhotoDTO>> UploadPhoto(IFormFile file)
         {
             var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -178,6 +183,7 @@ namespace Backend.Controllers
         }
 
         [HttpPut("main-photo/{photoId}")]
+        [Authorize]
         public async Task<ActionResult> SetPhotoToMain(int photoId)
         {
             var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -213,6 +219,7 @@ namespace Backend.Controllers
         }
 
         [HttpDelete("delete-photo/{photoId}")]
+        [Authorize]
         public async Task<ActionResult> DeletePhoto(int photoId)
         {
             var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

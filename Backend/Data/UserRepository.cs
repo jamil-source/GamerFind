@@ -6,6 +6,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Backend.DTO;
 using Backend.Entities;
+using Backend.Helpers;
 using Backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,9 +28,11 @@ namespace Backend.Data
             return await _context.Users.Where(user => user.UserName == username).ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDTO>> GetMembersAsync()
+        public async Task<PagedList<MemberDTO>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users.ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).ToListAsync();
+            var q =  _context.Users.ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).AsNoTracking();
+
+            return await PagedList<MemberDTO>.CreateAsync(q, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<User> GetUserByIdAsync(int id)
