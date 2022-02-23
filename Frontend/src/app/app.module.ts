@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MenuComponent } from './menu/menu.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -26,6 +26,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
 import { MemberPhotoHandlerComponent } from './members/member-photo-handler/member-photo-handler.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FormTextHandlerComponent } from './shared/form-handler/form-text-handler/form-text-handler.component';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     ErrorComponent,
     MemberCardComponent,
     MemberEditComponent,
-    MemberPhotoHandlerComponent
+    MemberPhotoHandlerComponent,
+    FormTextHandlerComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,9 @@ import { FileUploadModule } from 'ng2-file-upload';
     TabsModule.forRoot(),
     NgxGalleryModule,
     NgxSpinnerModule,
-    FileUploadModule
+    FileUploadModule,
+    BsDatepickerModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

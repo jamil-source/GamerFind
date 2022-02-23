@@ -71,14 +71,15 @@ namespace Backend.Controllers
                 return BadRequest("Email taken!");
             }
 
+            var user = _mapper.Map<User>(reg);
+
             using var hmac = new HMACSHA512(); // Hashing 
-            User user = new User
-            {
-                UserName = reg.UserName.ToLower(),
-                Email = reg.Email,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(reg.Password)),
-                PasswordSalt = hmac.Key // HMACSHA512 generates a key and that key will be used as salt for the PW
-            };
+
+            user.UserName = reg.UserName.ToLower();
+            user.Email = reg.Email;
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(reg.Password));
+            user.PasswordSalt = hmac.Key; // HMACSHA512 generates a key and that key will be used as salt for the PW
+
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -240,7 +241,7 @@ namespace Backend.Controllers
             }
             user.Photos.Remove(photo);
 
-            if(await _userRepository.SaveAllAsync())
+            if (await _userRepository.SaveAllAsync())
             {
                 return Ok();
             }

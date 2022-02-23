@@ -1,0 +1,138 @@
+@import "../shared/styles/colors";
+@import "../shared/styles/fonts";
+.form-register-wrapper {
+    h2 {
+        text-align: center;
+    }
+    .radio-group {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        input[type="radio"] {
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border: 2px solid $white;
+            border-radius: 50%;
+            background-clip: content-box;
+            padding: 8px;
+            transition: 0.5s ease;
+            margin-right: 10px;
+        }
+
+        input[type="radio"]:checked {
+            background-color: $standard;
+        }
+
+        input[type="radio"]:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            background-color: $standard;
+        }
+
+        .radio-inline {
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+        }
+        .control-label {
+            font-size: 30px;
+        }
+        
+    }
+    
+
+}
+
+.register {
+    width: 100%;
+    background-color: $input-background;
+    border: 2px solid $standard;
+    border-radius: 0;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: $white;
+    text-indent: 10px;
+    &::placeholder {
+        color: grey;
+    }
+    &:focus {
+        background-color: $input-background;
+        border: 2px solid $standard;
+        color: $white;
+    }
+
+}
+.register:-webkit-autofill,
+.register:-webkit-autofill:hover,
+.register:-webkit-autofill:focus,
+.register:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px $input-background inset !important;
+    box-shadow: 0 0 0 30px $input-background inset !important;
+}
+
+.register:-webkit-autofill{
+    -webkit-text-fill-color: $white !important;
+}
+
+
+
+@media only screen and (max-width: 767px) {
+    .radio-inline {
+        font-size: 20px !important;
+    }
+    .control-label {
+        font-size: 20px !important;
+    }
+
+    input[type="radio"] {
+        appearance: none;
+        width: 20px !important;
+        height: 20px !important;
+        padding: 4px !important;
+    }
+}
+
+@media only screen and (max-width: 519px) {
+    .control-label {
+        display: none !important;
+    }
+
+}
+
+@media only screen and (max-width: 450px) {
+    .radio-inline {
+        font-size: 15px !important;
+    }
+    .control-label {
+        font-size: 15px !important;
+    }
+
+    input[type="radio"] {
+        appearance: none;
+        width: 15px !important;
+        height: 15px !important;
+        padding: 4px !important;
+        margin-right: 5px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .radio-inline {
+        font-size: 12px !important;
+    }
+    .control-label {
+        font-size: 12px !important;
+    }
+
+    input[type="radio"] {
+        appearance: none;
+        width: 12px !important;
+        height: 12px !important;
+        padding: 4px !important;
+        margin-right: 5px;
+    }
+}
+
+

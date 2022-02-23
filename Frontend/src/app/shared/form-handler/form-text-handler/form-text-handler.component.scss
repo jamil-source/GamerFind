@@ -1,0 +1,31 @@
+@import "../../styles/colors";
+@import "../../styles/fonts";
+.register {
+    background-color: $input-background;
+    border: 2px solid $standard;
+    border-radius: 0;
+    font-size: 20px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    color: $white;
+    &::placeholder {
+        color: grey;
+    }
+    &:focus {
+        background-color: $input-background;
+        border: 2px solid $standard;
+        color: $white;
+    }
+
+}
+.register:-webkit-autofill,
+.register:-webkit-autofill:hover,
+.register:-webkit-autofill:focus,
+.register:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px $input-background inset !important;
+    box-shadow: 0 0 0 30px $input-background inset !important;
+}
+
+.register:-webkit-autofill{
+    -webkit-text-fill-color: $white !important;
+}
