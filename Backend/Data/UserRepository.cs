@@ -25,12 +25,19 @@ namespace Backend.Data
 
         public async Task<MemberDTO> GetMemberAsync(string username)
         {
-            return await _context.Users.Where(user => user.UserName == username).ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+            return await _context.Users
+                        .Where(user => user.UserName == username)
+                        .ProjectTo<MemberDTO>(_mapper.ConfigurationProvider)
+                        .SingleOrDefaultAsync();
         }
 
         public async Task<PagedList<MemberDTO>> GetMembersAsync(UserParams userParams)
         {
-            var q =  _context.Users.ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).AsNoTracking();
+            var q = _context.Users
+                    .Where(user => user.UserName != userParams.CurrentUsername)
+                    .Where(user => user.GameType == userParams.GameType)
+                    .ProjectTo<MemberDTO>(_mapper.ConfigurationProvider)
+                    .AsNoTracking();
 
             return await PagedList<MemberDTO>.CreateAsync(q, userParams.PageNumber, userParams.PageSize);
         }
@@ -42,12 +49,16 @@ namespace Backend.Data
 
         public async Task<User> GetUserByUsernameAsync(string username)
         {
-            return await _context.Users.Include(p => p.Photos).SingleOrDefaultAsync(user => user.UserName == username );
+            return await _context.Users
+                        .Include(p => p.Photos)
+                        .SingleOrDefaultAsync(user => user.UserName == username);
         }
 
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
-            return await _context.Users.Include(p => p.Photos).ToListAsync();
+            return await _context.Users
+                        .Include(p => p.Photos)
+                        .ToListAsync();
         }
 
         public async Task<bool> SaveAllAsync()

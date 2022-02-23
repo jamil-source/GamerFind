@@ -42,6 +42,14 @@ namespace Backend.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery]UserParams userParams)
         {
+
+            userParams.CurrentUsername = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if(string.IsNullOrEmpty(userParams.GameType))
+            {
+                userParams.GameType = "PVE & PVP";
+            }
+
             var users = await _userRepository.GetMembersAsync(userParams);
 
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
