@@ -1,6 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { NumberSymbol } from '@angular/common';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { Member } from 'src/app/models/Member';
+import { Paginated } from 'src/app/models/Pagination';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,26 +11,43 @@ import { environment } from 'src/environments/environment';
 })
 export class MembersService {
   baseUrl = environment.apiUrl;
+  paginated: Paginated<Member[]> = new Paginated<Member[]>();
 
   constructor(private http: HttpClient) { }
 
-  getMembers() {
-    return this.http.get<Member[]>(`${this.baseUrl}users`)
+  getMembers(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+  
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString())
+      params = params.append('pageSize', itemsPerPage.toString())
+    }
+
+    return this.http.get<Member[]>(`${this.baseUrl}users`, { observe: 'response', params }).pipe(
+      map(res => {
+        this.paginated.result = res.body;
+        if (res.headers.get("Pagination")) {
+          this.paginated.pagination = JSON.parse(res.headers.get("Pagination"));
+        }
+        console.log(this.paginated.pagination)
+        return this.paginated;
+      })
+    )
   }
 
   getMember(userName: string) {
     return this.http.get<Member>(`${this.baseUrl}users/${userName}`)
   }
 
-  updateMemberInfo(member: Member){
-     return this.http.put(`${this.baseUrl}users`, member)
+  updateMemberInfo(member: Member) {
+    return this.http.put(`${this.baseUrl}users`, member)
   }
 
-  updateMainPhoto(photoId: number){
+  updateMainPhoto(photoId: number) {
     return this.http.put(`${this.baseUrl}users/main-photo/${photoId}`, {});
   }
 
-  deletePhoto(photoId: number){
+  deletePhoto(photoId: number) {
     return this.http.delete(`${this.baseUrl}users/delete-photo/${photoId}`);
   }
 }
