@@ -42,12 +42,14 @@ namespace Backend.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery]UserParams userParams)
         {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userRepository.GetUserByUsernameAsync(username);
 
-            userParams.CurrentUsername = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            userParams.CurrentUsername = user.UserName;
 
             if(string.IsNullOrEmpty(userParams.GameType))
             {
-                userParams.GameType = "PVE & PVP";
+                userParams.GameType = user.GameType;
             }
 
             var users = await _userRepository.GetMembersAsync(userParams);

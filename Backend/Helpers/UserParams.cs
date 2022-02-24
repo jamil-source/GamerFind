@@ -18,5 +18,9 @@ namespace Backend.Helpers
         }
         public string CurrentUsername { get; set; }
         public string GameType { get; set; }
+
+        public int MinAge { get; set; } = 18;
+        public int MaxAge { get; set; } = 200;
+
     }
 }
