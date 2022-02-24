@@ -19,8 +19,9 @@ export class MemberListComponent implements OnInit {
   paginated: Paginated<Member[]> = new Paginated<Member[]>();
   userParams: UserParams;
   user: User;
+  gameTypeChoose = [{ value: "PVE", display: "PVE" }, { value: "PVP", display: "PVP" }, { value: "PVE&PVP", display: "PVE & PVP" }]
 
-  constructor(private memberService: MembersService, private toastr: ToastrService, private accountService: AccountService) { 
+  constructor(private memberService: MembersService, private toastr: ToastrService, private accountService: AccountService) {
     this.accountService.loggedInUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
       this.userParams = new UserParams(user);
@@ -45,7 +46,12 @@ export class MemberListComponent implements OnInit {
     })
   }
 
-  changePage(event){
+  resetFilter(){
+    this.userParams = new UserParams(this.user)
+    this.getAllMembers();
+  }
+
+  changePage(event) {
     console.log(event)
     this.userParams.pageNumber = event.page;
     this.getAllMembers();
