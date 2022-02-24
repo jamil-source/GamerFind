@@ -49,7 +49,7 @@ namespace Backend.Controllers
 
             if(string.IsNullOrEmpty(userParams.GameType))
             {
-                userParams.GameType = user.GameType;
+                userParams.GameType = "PVE";
             }
 
             var users = await _userRepository.GetMembersAsync(userParams);
@@ -100,7 +100,8 @@ namespace Backend.Controllers
             return new UserDTO
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                GameType = user.GameType
             };
         }
 
@@ -132,7 +133,8 @@ namespace Backend.Controllers
             {
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.MainPhoto)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.MainPhoto)?.Url,
+                GameType = user.GameType
             };
         }
 

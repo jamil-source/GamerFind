@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Member } from 'src/app/models/Member';
 import { Paginated } from 'src/app/models/Pagination';
+import { UserParams } from 'src/app/models/UserParams';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -15,16 +16,27 @@ export class MembersService {
 
   constructor(private http: HttpClient) { }
 
-  getMembers(page?: number, itemsPerPage?: number) {
-    let params = new HttpParams();
-  
-    if (page !== null && itemsPerPage !== null) {
-      params = params.append('pageNumber', page.toString())
-      params = params.append('pageSize', itemsPerPage.toString())
-    }
+  getMembers(userParams: UserParams) {
+    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+
+    params = params.append("minAge", userParams.minAge.toString())
+    params = params.append("maxAge", userParams.maxAge.toString())
+    params = params.append("gameType", userParams.gameType)
+
 
     return this.http.get<Member[]>(`${this.baseUrl}users`, { observe: 'response', params })
   }
+
+  getPaginationHeaders(pageNumber: number, pageSize: number) {
+    let params = new HttpParams();
+
+    params = params.append('pageNumber', pageNumber.toString())
+    params = params.append('pageSize', pageSize.toString())
+
+    return params;
+
+  }
+
 
   getMember(userName: string) {
     return this.http.get<Member>(`${this.baseUrl}users/${userName}`)
