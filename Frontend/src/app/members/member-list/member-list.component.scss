@@ -1,13 +1,60 @@
 @import "../../shared/styles/colors";
 @import "../../shared/styles/fonts";
-@media only screen and (max-width: 767px) {
-    .col-md-3 {
+
+.form-wrap {
+    margin-top: 40px;
+    display: flex;
+    .grp1 {
         display: flex;
-        justify-content: center;
+        label {
+            color: $white;
+            font-size: 20px;
+        }
+        input {
+            background: none;
+            text-align: center;
+            border-radius: 0;
+            color: $white;
+            font-size: 20px;
+        }
+    }
+
+    select {
+        background: none;
+        font-size: 20px;
+        color: $white;
+        option {
+            color: black;
+        }
+    }
+    .apply {
+        background: none;
+        color: $standard;
+        font-size: 20px;
+        font-style: italic;
+        font-weight: bold;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+    .reset {
+        background: none;
+        color: $white;
+        font-size: 20px;
+        font-style: italic;
+        font-weight: bold;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+    .form-group {
+        margin-right: 20px;
+        .age {
+            width: 70px;
+        }
     }
 }
-
-.pagination-item::ng-deep ul{
+.pagination-item::ng-deep ul {
     flex-wrap: wrap;
 }
 
@@ -27,6 +74,54 @@
     border-radius: 5px;
 }
 
+@media only screen and (max-width: 991px) {
+    .form-wrap {
+        display: flex !important;
+        justify-content: center;
+    }
+}
 
+@media only screen and (max-width: 767px) {
+    .grp1{
+        .form-group{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    .col-md-3 {
+        display: flex;
+        justify-content: center;
+    }
+}
 
+@media only screen and (max-width: 451px) {
+    .grp1{
+        
+        label{
+            font-size: 15px !important;
+        }
+        input{
+            font-size: 15px !important;
+        }
+        select{
+            font-size: 15px !important;
+        }
+    }
+    
+}
 
+@media only screen and (max-width: 373px) {
+    .grp1{
+        flex-direction: column;
+        label{
+            font-size: 12px !important;
+        }
+        input{
+            font-size: 12px !important;
+        }
+        select{
+            font-size: 12px !important;
+        }
+    }
+    
+}
