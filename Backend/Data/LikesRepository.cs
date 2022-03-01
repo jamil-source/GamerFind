@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.DTO;
 using Backend.Entities;
+using Backend.Extensions;
 using Backend.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Data
 {
@@ -16,19 +18,43 @@ namespace Backend.Data
             _context = context;
         }
 
-        public Task<UserLike> GetUserLike(int userId, int likedUserId)
+        public async Task<UserLike> GetUserLike(int userId, int likedUserId)
         {
-            throw new NotImplementedException();
+            return await _context.Likes.FindAsync(userId, likedUserId);
         }
 
-        public Task<IEnumerable<LikeDTO>> GetUserLikes(string predicate, int userId)
+        public async Task<IEnumerable<LikeDTO>> GetUserLikes(string likedOrLikedBy, int userId)
         {
-            throw new NotImplementedException();
+            var users = _context.Users.OrderBy(user => user.UserName).AsQueryable();
+            var likes = _context.Likes.AsQueryable();
+
+            if (likedOrLikedBy == "liked")
+            {
+                likes = likes.Where(like => like.UserId == userId);
+                users = likes.Select(like => like.LikedUser);
+            }
+
+            if (likedOrLikedBy == "likedBy")
+            {
+                likes = likes.Where(like => like.LikedUserId == userId);
+                users = likes.Select(like => like.User);
+            }
+
+            return await users.Select(user => new LikeDTO
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Age = user.DateOfBirth.CalculateAge(),
+                PhotoUrl = user.Photos.FirstOrDefault(p => p.MainPhoto).Url,
+                Country = user.Country
+            }).ToListAsync();
         }
 
-        public Task<User> GetUserWithLikes(int userId)
+        public async Task<User> GetUserWithLikes(int userId)
         {
-            throw new NotImplementedException();
+            return await _context.Users
+                .Include(l => l.LikedUsers)
+                .FirstOrDefaultAsync(u => u.Id == userId);
         }
     }
 }

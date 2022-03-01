@@ -11,7 +11,7 @@ namespace Backend.Interfaces
     {
         Task<UserLike> GetUserLike(int userId, int likedUserId);
         Task<User> GetUserWithLikes(int userId);
-        Task<IEnumerable<LikeDTO>> GetUserLikes(string predicate, int userId);
+        Task<IEnumerable<LikeDTO>> GetUserLikes(string likedOrLikedBy, int userId);
 
     }
 }
