@@ -59,6 +59,6 @@ export class MembersService {
   }
 
   getLikes(likedOrLikedBy: string) {
-    return this.http.get(`${this.baseUrl}likes?=${likedOrLikedBy}`)
+    return this.http.get<Partial<Member[]>>(`${this.baseUrl}likes?likedOrLikedBy=${likedOrLikedBy}`)
   }
 }
