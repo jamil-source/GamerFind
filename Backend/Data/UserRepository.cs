@@ -6,6 +6,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Backend.DTO;
 using Backend.Entities;
+using Backend.Helpers;
 using Backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,9 +28,19 @@ namespace Backend.Data
             return await _context.Users.Where(user => user.UserName == username).ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDTO>> GetMembersAsync()
+        public async Task<PagedList<MemberDTO>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users.ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).ToListAsync();
+            var q = _context.Users.AsQueryable();
+            q = q.Where(user => user.UserName != userParams.CurrentUsername);
+            q = q.Where(user => user.GameType == userParams.GameType);
+
+            var minDateOfBirth = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+            var maxDateOfBirth = DateTime.Today.AddYears(-userParams.MinAge);
+
+            q = q.Where(user => user.DateOfBirth >= minDateOfBirth && user.DateOfBirth <= maxDateOfBirth);
+
+            return await PagedList<MemberDTO>.CreateAsync(q.ProjectTo<MemberDTO>(_mapper.ConfigurationProvider).AsNoTracking(),
+            userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<User> GetUserByIdAsync(int id)
@@ -39,7 +50,7 @@ namespace Backend.Data
 
         public async Task<User> GetUserByUsernameAsync(string username)
         {
-            return await _context.Users.Include(p => p.Photos).SingleOrDefaultAsync(user => user.UserName == username );
+            return await _context.Users.Include(p => p.Photos).SingleOrDefaultAsync(user => user.UserName == username);
         }
 
         public async Task<IEnumerable<User>> GetUsersAsync()

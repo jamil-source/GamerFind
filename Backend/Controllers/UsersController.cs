@@ -9,6 +9,8 @@ using AutoMapper;
 using Backend.Data;
 using Backend.DTO;
 using Backend.Entities;
+using Backend.Extensions;
+using Backend.Helpers;
 using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -38,10 +40,20 @@ namespace Backend.Controllers
         // api/users
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery]UserParams userParams)
         {
-            var users = await _userRepository.GetMembersAsync();
+            
 
+            userParams.CurrentUsername = User.GetUsername();
+
+            if(string.IsNullOrEmpty(userParams.GameType))
+            {
+                userParams.GameType = "PVE";
+            }
+
+            var users = await _userRepository.GetMembersAsync(userParams);
+
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
             return Ok(users);
         }
 
@@ -87,7 +99,8 @@ namespace Backend.Controllers
             return new UserDTO
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                GameType = user.GameType
             };
         }
 
@@ -119,15 +132,16 @@ namespace Backend.Controllers
             {
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.MainPhoto)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(photo => photo.MainPhoto)?.Url,
+                GameType = user.GameType
             };
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> UpdateUser(MemberUpdateDTO memberUpdateDto)
         {
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             _mapper.Map(memberUpdateDto, user);
 
@@ -142,11 +156,11 @@ namespace Backend.Controllers
         }
 
         [HttpPost("upload-photo")]
+        [Authorize]
         public async Task<ActionResult<PhotoDTO>> UploadPhoto(IFormFile file)
         {
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+            
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             var result = await _photoService.AddPhotoAsync(file);
 
@@ -178,11 +192,11 @@ namespace Backend.Controllers
         }
 
         [HttpPut("main-photo/{photoId}")]
+        [Authorize]
         public async Task<ActionResult> SetPhotoToMain(int photoId)
         {
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             var photo = user.Photos.FirstOrDefault(photo => photo.Id == photoId);
 
@@ -213,11 +227,11 @@ namespace Backend.Controllers
         }
 
         [HttpDelete("delete-photo/{photoId}")]
+        [Authorize]
         public async Task<ActionResult> DeletePhoto(int photoId)
         {
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+        
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
 

@@ -28,6 +28,8 @@ import { MemberPhotoHandlerComponent } from './members/member-photo-handler/memb
 import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormTextHandlerComponent } from './shared/form-handler/form-text-handler/form-text-handler.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TimeagoModule } from 'ngx-timeago';
 
 
 @NgModule({
@@ -63,7 +65,9 @@ import { FormTextHandlerComponent } from './shared/form-handler/form-text-handle
     NgxSpinnerModule,
     FileUploadModule,
     BsDatepickerModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PaginationModule.forRoot(),
+    TimeagoModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,7 +1,43 @@
 <div class="container">
+    <div class="container mt-3">
+        <form #form="ngForm" class="form-inline form-wrap mb-3" (ngSubmit)="getAllMembers()" autocomplete="off">
+            <div class="grp1">
+                <div class="form-group">
+                    <label>Min age: </label>
+                    <input type="number" class="form-control ml-1 age" name="minAge" [(ngModel)]="userParams.minAge">
+                </div>
+                <div class="form-group">
+                    <label>Max age: </label>
+                    <input type="number" class="form-control ml-1 age" name="maxAge" [(ngModel)]="userParams.maxAge">
+                </div>
+
+                <div class="form-group ">
+                    <label>Game Type </label>
+                    <select name="gameType" [(ngModel)]="userParams.gameType" class="form-control ml-1">
+                        <option *ngFor="let gameType of gameTypeChoose" [value]="gameType.value">
+                            {{gameType.display}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="grp2">
+                <button class="btn ml-1 apply" type="submit">Apply</button>
+                <button class="btn ml-1 reset" (click)="resetFilter()">Reset</button>
+            </div>
+
+
+        </form>
+    </div>
     <div class="row">
         <div class="col-md-3" *ngFor="let member of members">
             <app-member-card [member]="member"></app-member-card>
         </div>
     </div>
+</div>
+<div class="d-flex justify-content-center pagination-wrap" *ngIf="pagination">
+    <pagination class="pagination-item" [boundaryLinks]="true" [totalItems]="pagination.TotalItems"
+        [itemsPerPage]="pagination.ItemsPerPage" [(ngModel)]="pagination.CurrentPage" (pageChanged)="changePage($event)"
+        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+
+    </pagination>
 </div>

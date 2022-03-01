@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.DTO;
 using Backend.Entities;
+using Backend.Helpers;
 
 namespace Backend.Interfaces
 {
@@ -14,7 +15,7 @@ namespace Backend.Interfaces
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User> GetUserByIdAsync(int id);
         Task<User> GetUserByUsernameAsync(string username);
-        Task<IEnumerable<MemberDTO>> GetMembersAsync();
+        Task<PagedList<MemberDTO>> GetMembersAsync(UserParams paramsUser);
         Task<MemberDTO> GetMemberAsync(string username);
 
     }

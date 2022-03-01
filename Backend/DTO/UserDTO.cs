@@ -10,6 +10,7 @@ namespace Backend.DTO
         public string UserName { get; set; }
         public string Token { get; set; }
         public string PhotoUrl { get; set; }
+        public string GameType { get; set; }
 
     }
 }

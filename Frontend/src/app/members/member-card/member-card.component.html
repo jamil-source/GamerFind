@@ -25,7 +25,7 @@
             {{member.userName | titlecase}}, {{member.age}}
         </h3>
         <p class="card-text text-center country">{{member.country}}</p>
-        <p class="card-text text-center game-type">{{member.gameType}}</p>
+        <p class="card-text text-center game-type">{{member.gameType == "PVE&PVP" ? "PVE & PVP" : member.gameType}}</p>
 
     </div>
 </div>
