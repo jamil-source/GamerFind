@@ -8,6 +8,7 @@ using Backend.DTO;
 using Backend.Entities;
 using Backend.Helpers;
 using Backend.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Data
 {
@@ -36,9 +37,32 @@ namespace Backend.Data
             return await _context.Messages.FindAsync(id);
         }
 
-        public Task<IEnumerable<MessageDTO>> GetMessageThread(int currentUserId, int receiverId)
+        public async Task<IEnumerable<MessageDTO>> GetMessageThread(string currentUsername, string receiverUsername)
         {
-            throw new NotImplementedException();
+            var messages = await _context.Messages
+                            .Include(u => u.Sender).ThenInclude(p => p.Photos)
+                            .Include(u => u.Receiver).ThenInclude(p => p.Photos)
+                            .Where(message => message.Receiver.UserName == currentUsername 
+                            && message.Sender.UserName == receiverUsername 
+                            || message.Receiver.UserName == receiverUsername
+                            && message.Sender.UserName == currentUsername
+                            )
+                            .OrderBy(message => message.MessageSent)
+                            .ToListAsync();
+            
+            var unreadMessages = messages.Where(message => message.DateRead == null && message.Receiver.UserName == currentUsername).ToList();
+
+            if(unreadMessages.Any())
+            {
+                foreach (var message in unreadMessages)
+                {
+                    message.DateRead = DateTime.Now;
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return _mapper.Map<IEnumerable<MessageDTO>>(messages);
         }
 
         public async Task<PagedList<MessageDTO>> GetUserMessages(MessageParams messageParams)

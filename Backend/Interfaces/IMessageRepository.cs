@@ -14,7 +14,7 @@ namespace Backend.Interfaces
         void DeleteMessage(Message message);
         Task<Message> GetMessage(int id);
         Task<PagedList<MessageDTO>> GetUserMessages(MessageParams messageParams);
-        Task<IEnumerable<MessageDTO>> GetMessageThread(int currentUserId, int receiverId);
+        Task<IEnumerable<MessageDTO>> GetMessageThread(string currentUsername, string receiverUsername);
         Task<bool> SaveAllAsync();
 
     }
