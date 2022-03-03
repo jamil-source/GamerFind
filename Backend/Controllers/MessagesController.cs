@@ -6,6 +6,7 @@ using AutoMapper;
 using Backend.DTO;
 using Backend.Entities;
 using Backend.Extensions;
+using Backend.Helpers;
 using Backend.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +61,19 @@ namespace Backend.Controllers
             }
 
             return BadRequest("Message could not send!");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MessageDTO>>> GetUserMessages([FromQuery] MessageParams messageParams)
+        {
+            messageParams.UserName = User.GetUsername();
+
+            var messages = await _messageRepository.GetUserMessages(messageParams);
+
+            Response.AddPaginationHeader(messages.CurrentPage, messages.PageSize, messages.TotalCount, messages.TotalPages);
+
+            return messages;
         }
     }
 }

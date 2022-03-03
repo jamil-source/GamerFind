@@ -13,7 +13,7 @@ namespace Backend.Interfaces
         void AddMessage(Message message);
         void DeleteMessage(Message message);
         Task<Message> GetMessage(int id);
-        Task<PagedList<MessageDTO>> GetUserMessages();
+        Task<PagedList<MessageDTO>> GetUserMessages(MessageParams messageParams);
         Task<IEnumerable<MessageDTO>> GetMessageThread(int currentUserId, int receiverId);
         Task<bool> SaveAllAsync();
 

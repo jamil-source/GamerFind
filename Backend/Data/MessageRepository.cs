@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Backend.DTO;
 using Backend.Entities;
 using Backend.Helpers;
@@ -12,8 +14,10 @@ namespace Backend.Data
     public class MessageRepository : IMessageRepository
     {
         private readonly DataContext _context;
-        public MessageRepository(DataContext context)
+        private readonly IMapper _mapper;
+        public MessageRepository(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -37,9 +41,22 @@ namespace Backend.Data
             throw new NotImplementedException();
         }
 
-        public Task<PagedList<MessageDTO>> GetUserMessages()
+        public async Task<PagedList<MessageDTO>> GetUserMessages(MessageParams messageParams)
         {
-            throw new NotImplementedException();
+            var query = _context.Messages
+                .OrderByDescending(message => message.MessageSent)
+                .AsQueryable();
+
+            query = messageParams.Container switch
+            {
+                "Inbox" => query.Where(u => u.Receiver.UserName == messageParams.UserName),
+                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.UserName),
+                _ => query.Where(u => u.Receiver.UserName == messageParams.UserName && u.DateRead == null)
+            };
+
+            var messages = query.ProjectTo<MessageDTO>(_mapper.ConfigurationProvider);
+
+            return await PagedList<MessageDTO>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
         public async Task<bool> SaveAllAsync()
