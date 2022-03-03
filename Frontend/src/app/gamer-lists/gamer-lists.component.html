@@ -1,1 +1,18 @@
-<p>gamer-lists works!</p>
+<div class="container mt-3">
+    <div class="row toggles">
+        <h1>{{header === "liked" ? "I Like" : "Liked Me"}}</h1>
+        <div class="btn-group">
+            <button [ngClass]="header == 'liked' ? 'button-active' : 'btn'" btnRadio="liked" (click)="getLikes('liked')">
+                Liked
+            </button>
+            <button [ngClass]="header == 'likedBy' ? 'button-active' : 'btn'" btnRadio="likedBy" (click)="getLikes('likedBy')">
+                Liked Me
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3" *ngFor="let member of members">
+            <app-member-card [member]="member"></app-member-card>
+        </div>
+    </div>
+</div>
