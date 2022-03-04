@@ -6,6 +6,7 @@ import { Member } from 'src/app/models/Member';
 import { Paginated } from 'src/app/models/Pagination';
 import { UserParams } from 'src/app/models/UserParams';
 import { environment } from 'src/environments/environment';
+import { getPaginationHeaders } from './helpers/paginationHelper';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class MembersService {
   constructor(private http: HttpClient) { }
 
   getMembers(userParams: UserParams) {
-    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
     params = params.append("minAge", userParams.minAge.toString())
     params = params.append("maxAge", userParams.maxAge.toString())
@@ -25,16 +26,6 @@ export class MembersService {
 
 
     return this.http.get<Member[]>(`${this.baseUrl}users`, { observe: 'response', params })
-  }
-
-  getPaginationHeaders(pageNumber: number, pageSize: number) {
-    let params = new HttpParams();
-
-    params = params.append('pageNumber', pageNumber.toString())
-    params = params.append('pageSize', pageSize.toString())
-
-    return params;
-
   }
 
 
