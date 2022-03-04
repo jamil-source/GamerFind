@@ -31,6 +31,7 @@ import { FormTextHandlerComponent } from './shared/form-handler/form-text-handle
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TimeagoModule } from 'ngx-timeago';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     MemberCardComponent,
     MemberEditComponent,
     MemberPhotoHandlerComponent,
-    FormTextHandlerComponent
+    FormTextHandlerComponent,
+    MemberMessagesComponent
   ],
   imports: [
     BrowserModule,
