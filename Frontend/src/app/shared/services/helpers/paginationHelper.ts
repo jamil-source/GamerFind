@@ -8,7 +8,7 @@ export function getPaginatedResult<T>(url, params, http: HttpClient){
         map(res => {
             paginatedResult.result = res.body
             if(res.headers.get('Pagination') !== null){
-               paginatedResult.result = JSON.parse(res.headers.get('Pagination'));
+               paginatedResult.pagination = JSON.parse(res.headers.get('Pagination'));
             }
             return paginatedResult;
         })
