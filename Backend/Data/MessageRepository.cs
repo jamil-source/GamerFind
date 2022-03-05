@@ -34,7 +34,7 @@ namespace Backend.Data
 
         public async Task<Message> GetMessage(int id)
         {
-            return await _context.Messages.FindAsync(id);
+            return await _context.Messages.Include(u => u.Sender).Include(u => u.Receiver).SingleOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<MessageDTO>> GetMessageThread(string currentUsername, string receiverUsername)
