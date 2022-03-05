@@ -3,6 +3,7 @@ import { Message } from '../models/Message';
 import { Pagination } from '../models/Pagination';
 import { MessageService } from '../shared/services/message.service';
 import { faEnvelope, faEnvelopeOpen, faPaperPlane, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-messages',
@@ -19,18 +20,23 @@ export class MessagesComponent implements OnInit {
   faEnvelopeOpen = faEnvelopeOpen;
   faPaperPlane = faPaperPlane;
   faTrash = faTrash;
+  loading = false;
 
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getMessages()
   }
 
   getMessages() {
+    this.loading = true
     this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe(res => {
       this.messages = res.result;
       this.pagination = res.pagination;
+      this.loading = false;
+    }, err => {
+      this.toastr.error(err.error)
     })
   }
 
