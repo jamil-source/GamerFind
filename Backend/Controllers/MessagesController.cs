@@ -31,7 +31,7 @@ namespace Backend.Controllers
         {
             var username = User.GetUsername();
 
-            if(username == createMessageDTO.ReceiverUsername.ToLower())
+            if (username == createMessageDTO.ReceiverUsername.ToLower())
             {
                 return BadRequest("Message can not be send to yourself!");
             }
@@ -39,7 +39,7 @@ namespace Backend.Controllers
             var sender = await _userRepository.GetUserByUsernameAsync(username);
             var receiver = await _userRepository.GetUserByUsernameAsync(createMessageDTO.ReceiverUsername);
 
-            if(receiver == null)
+            if (receiver == null)
             {
                 return NotFound();
             }
@@ -55,7 +55,7 @@ namespace Backend.Controllers
 
             _messageRepository.AddMessage(message);
 
-            if(await _messageRepository.SaveAllAsync())
+            if (await _messageRepository.SaveAllAsync())
             {
                 return Ok(_mapper.Map<MessageDTO>(message));
             }
@@ -83,6 +83,44 @@ namespace Backend.Controllers
             var currentUsername = User.GetUsername();
 
             return Ok(await _messageRepository.GetMessageThread(currentUsername, username));
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteMessage(int id)
+        {
+            var username = User.GetUsername();
+
+            var message = await _messageRepository.GetMessage(id);
+
+            // Check that the message is connected to users that is writing the message.
+            if (message.Sender.UserName != username && message.Receiver.UserName != username)
+            {
+                return Unauthorized();
+            }
+
+            if (message.Sender.UserName == username)
+            {
+                message.SenderDeleted = true;
+            }
+
+            if (message.Receiver.UserName == username)
+            {
+                message.ReceiverDeleted = true;
+            }
+
+            // Only delete from DB if both has deleted message
+            if (message.SenderDeleted && message.ReceiverDeleted)
+            {
+                _messageRepository.DeleteMessage(message);
+            }
+
+            if (await _messageRepository.SaveAllAsync())
+            {
+                return Ok();
+            }
+
+            return BadRequest("Could not delete message!");
         }
 
     }

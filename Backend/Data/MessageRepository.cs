@@ -42,10 +42,10 @@ namespace Backend.Data
             var messages = await _context.Messages
                             .Include(u => u.Sender).ThenInclude(p => p.Photos)
                             .Include(u => u.Receiver).ThenInclude(p => p.Photos)
-                            .Where(message => message.Receiver.UserName == currentUsername 
+                            .Where(message => message.Receiver.UserName == currentUsername && message.ReceiverDeleted == false
                             && message.Sender.UserName == receiverUsername 
                             || message.Receiver.UserName == receiverUsername
-                            && message.Sender.UserName == currentUsername
+                            && message.Sender.UserName == currentUsername && message.SenderDeleted == false
                             )
                             .OrderBy(message => message.MessageSent)
                             .ToListAsync();
@@ -73,9 +73,9 @@ namespace Backend.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.Receiver.UserName == messageParams.UserName),
-                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.UserName),
-                _ => query.Where(u => u.Receiver.UserName == messageParams.UserName && u.DateRead == null)
+                "Inbox" => query.Where(u => u.Receiver.UserName == messageParams.UserName && u.ReceiverDeleted == false),
+                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.UserName && u.SenderDeleted == false),
+                _ => query.Where(u => u.Receiver.UserName == messageParams.UserName && u.ReceiverDeleted == false && u.DateRead == null)
             };
 
             var messages = query.ProjectTo<MessageDTO>(_mapper.ConfigurationProvider);
