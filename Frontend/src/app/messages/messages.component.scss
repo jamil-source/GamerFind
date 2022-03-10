@@ -1,0 +1,106 @@
+@import "../shared/styles/colors";
+@import "../shared/styles/fonts";
+.container {
+    margin-top: 50px;
+    .btn-group {
+        button {
+            background-color: $standard;
+            border: none;
+            margin-right: 5px;
+            border-radius: 0;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+    .table-messages {
+        table {
+            color: $white;
+            .message-row {
+                .message-head {
+                    width: 40%;
+                }
+                .from-to-head {
+                    width: 20%;
+                }
+                .sent-received-head {
+                    width: 20%;
+                }
+                .img-circle {
+                    max-height: 50px;
+                    border-radius: 50%;
+                }
+                .message-content {
+                    max-width: 260px;
+                    overflow-x: hidden !important;
+                }
+                &:hover {
+                    cursor: pointer;
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+    .pagination-item::ng-deep ul {
+        flex-wrap: wrap;
+    }
+
+    .pagination-item::ng-deep .page-item.active .page-link {
+        z-index: 1;
+        color: #ffffff;
+        background-color: $standard !important;
+    }
+
+    .pagination-item::ng-deep .page-item .page-link {
+        z-index: 1;
+        color: black;
+        border: none;
+        margin: 0 5px;
+        font-weight: bold;
+        font-size: 20px;
+        border-radius: 5px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .table-messages {
+        table {
+            .message-row {
+                .img-circle {
+                    max-height: 20px;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 489px) {
+    .table-messages {
+        table {
+            .message-row {
+                .img-circle {
+                    display: none !important;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    .table-messages {
+        table {
+            tr {
+                font-size: 14px !important;
+                button {
+                    background: 0;
+                    border: 0;
+                    padding: 0;
+                    .delete {
+                        font-size: 14px !important;
+                    }
+                }
+            }
+        }
+    }
+}
