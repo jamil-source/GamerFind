@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Message } from 'src/app/models/Message';
 import { User } from 'src/app/models/User';
 import { environment } from 'src/environments/environment';
@@ -29,10 +30,18 @@ export class MessageService {
     this.hubConnection.on("ReceiveMessageThread", messages => {
       this.messageThreadSource.next(messages);
     })
+
+    this.hubConnection.on("NewMessage", message => {
+      this.messageThread$.pipe(take(1)).subscribe(messages => {
+        this.messageThreadSource.next([...messages, message])
+      })
+    })
   }
 
   stopHubConnection() {
-    this.hubConnection.stop();
+    if (this.hubConnection) {
+      this.hubConnection.stop();
+    }
   }
 
   getMessages(pageNumber, pageSize, container) {
@@ -45,8 +54,10 @@ export class MessageService {
     return this.http.get<Message[]>(`${this.baseUrl}messages/thread/${userName}`)
   }
 
-  sendMessage(userName: string, content: string) {
-    return this.http.post<Message>(`${this.baseUrl}messages`, { receiverUsername: userName, content })
+  async sendMessage(userName: string, content: string) {
+    return this.hubConnection.invoke("SendMessage", { receiverUsername: userName, content }).catch(err => {
+      console.log(err)
+    })
   }
 
   deleteMessage(id: number) {
