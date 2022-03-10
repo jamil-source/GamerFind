@@ -4,6 +4,7 @@ import { ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/models/User';
 import { environment } from 'src/environments/environment';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,16 @@ export class AccountService {
   private loggedInUserSrc = new ReplaySubject<User>(1);
   loggedInUser$ = this.loggedInUserSrc.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private presence: PresenceService) { }
 
   login(loginObj: any) {
     return this.http.post(`${this.baseUrl}users/login`, loginObj).pipe(
       map((res: User) => {
         const user = res;
-        user && (localStorage.setItem('user', JSON.stringify(user)), this.loggedInUserSrc.next(user));
+        if(user){
+          localStorage.setItem('user', JSON.stringify(user)), this.loggedInUserSrc.next(user)
+          this.presence.createHubConnection(user)
+        }
         return user;
       })
     )
@@ -30,7 +34,10 @@ export class AccountService {
     return this.http.post(`${this.baseUrl}users/register`, registerObj).pipe(
       map((user: User) => {
         //Login once registration is done
-        user && (localStorage.setItem('user', JSON.stringify(user)), this.loggedInUserSrc.next(user));
+        if(user){
+          localStorage.setItem('user', JSON.stringify(user)), this.loggedInUserSrc.next(user)
+          this.presence.createHubConnection(user)
+        }
         return user;
       })
     )
@@ -43,5 +50,6 @@ export class AccountService {
   logOut() {
     localStorage.removeItem('user');
     this.loggedInUserSrc.next(null)
+    this.presence.stopHubConnection();
   }
 }

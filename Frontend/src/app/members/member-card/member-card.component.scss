@@ -54,6 +54,10 @@
         border-bottom-left-radius: 20px;
         fa-icon {
             font-size: 15px;
+            margin-right: 8px;
+        }
+        .is-online {
+            color: green !important;
         }
         .country {
             font-size: 20px;

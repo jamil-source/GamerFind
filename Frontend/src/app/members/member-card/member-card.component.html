@@ -21,7 +21,7 @@
     </div>
     <div class="card-body p-1">
         <h3 class="card-title text-center mb-1">
-            <fa-icon [icon]="faUser" class="mr-2"></fa-icon>
+            <fa-icon [icon]="faUser" [class.is-online]="(presence.onlineUsers$ | async).includes(member.userName)"></fa-icon>
             {{member.userName | titlecase}}, {{member.age}}
         </h3>
         <p class="card-text text-center country">{{member.country}}</p>
