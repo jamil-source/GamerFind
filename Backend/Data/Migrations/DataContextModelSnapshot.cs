@@ -17,48 +17,6 @@ namespace Backend.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
 
-            modelBuilder.Entity("Backend.Entities.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DateRead")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("MessageSent")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("ReceiverDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ReceiverId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ReceiverUsername")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("SenderDeleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SenderId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SenderUsername")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("Backend.Entities.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -146,25 +104,6 @@ namespace Backend.Data.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("Backend.Entities.Message", b =>
-                {
-                    b.HasOne("Backend.Entities.User", "Receiver")
-                        .WithMany("MessagesReceived")
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Backend.Entities.User", "Sender")
-                        .WithMany("MessagesSent")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Receiver");
-
-                    b.Navigation("Sender");
-                });
-
             modelBuilder.Entity("Backend.Entities.Photo", b =>
                 {
                     b.HasOne("Backend.Entities.User", "User")
@@ -200,10 +139,6 @@ namespace Backend.Data.Migrations
                     b.Navigation("LikedByUsers");
 
                     b.Navigation("LikedUsers");
-
-                    b.Navigation("MessagesReceived");
-
-                    b.Navigation("MessagesSent");
 
                     b.Navigation("Photos");
                 });

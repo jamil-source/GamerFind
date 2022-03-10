@@ -5,8 +5,17 @@ using System.Threading.Tasks;
 
 namespace Backend.Helpers
 {
-    public class UserParams : PaginationParams
+    public class UserParams
     {
+        private const int MaxPageSize = 50;
+        public int PageNumber { get; set; } = 1;
+        private int _pageSize = 12;
+
+        public int PageSize
+        {
+            get => _pageSize;
+            set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
+        }
         public string CurrentUsername { get; set; }
         public string GameType { get; set; }
 

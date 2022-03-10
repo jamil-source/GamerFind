@@ -19,9 +19,6 @@ namespace Backend.Helpers
             CreateMap<Photo, PhotoDTO>();
             CreateMap<MemberUpdateDTO, User>();
             CreateMap<RegisterDTO, User>();
-            CreateMap<Message, MessageDTO>()
-                .ForMember(destination => destination.SenderPhotoUrl, opt => opt.MapFrom(src => src.Sender.Photos.FirstOrDefault(p => p.MainPhoto).Url))
-                .ForMember(destination => destination.ReceiverPhotoUrl, opt => opt.MapFrom(src => src.Receiver.Photos.FirstOrDefault(p => p.MainPhoto).Url));
         }
     }
 }

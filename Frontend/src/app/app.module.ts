@@ -30,8 +30,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormTextHandlerComponent } from './shared/form-handler/form-text-handler/form-text-handler.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TimeagoModule } from 'ngx-timeago';
-import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 
 @NgModule({
@@ -48,8 +46,7 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     MemberCardComponent,
     MemberEditComponent,
     MemberPhotoHandlerComponent,
-    FormTextHandlerComponent,
-    MemberMessagesComponent
+    FormTextHandlerComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +68,6 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     ReactiveFormsModule,
     PaginationModule.forRoot(),
     TimeagoModule.forRoot(),
-    ButtonsModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
