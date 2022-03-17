@@ -26,18 +26,52 @@ export class UserManagementComponent implements OnInit {
     })
   }
 
-  openModalForRoles() {
-    const initialState = {
-      list: [
-        'Open a modal with component',
-        'Pass your data',
-        'Do something else',
-        '...'
-      ],
-      title: 'Modal with component'
-    };
-    this.bsModalRef = this.modalService.show(RolesModalComponent, { initialState });
-    this.bsModalRef.content.closeBtnName = 'Close';
+  openModalForRoles(user) {
+    const configModal = {
+      class: 'modal-dialog-centered',
+      initialState: {
+        user,
+        roles: this.getRolesArray(user)
+      }
+    }
+    this.bsModalRef = this.modalService.show(RolesModalComponent, configModal);
+    this.bsModalRef.content.updateSelectedRoles.subscribe(values => {
+      const rolesToUpdate = {
+        roles: [...values.filter(el => el.checked === true).map(el => el.name)]
+      }
+      if(rolesToUpdate){
+        console.log(user)
+        this.adminService.updateUserRoles(user.username, rolesToUpdate.roles).subscribe(() => {
+          user.roles = [...rolesToUpdate.roles]
+        })
+      }
+    })
+  }
+
+  private getRolesArray(user) {
+    const roles = [];
+    const userRoles = user.roles;
+    const availableRoles: any[] = [
+      { name: "Admin", value: "Admin" },
+      { name: "Member", value: "Member" }
+    ]
+
+    availableRoles.forEach(role => {
+      let match = false
+      for (const userRole of userRoles) {
+        if (role.name === userRole) {
+          match = true
+          role.checked = true
+          roles.push(role)
+          break;
+        }
+      }
+      if(!match){
+        role.checked = false
+        roles.push(role)
+      }
+    })
+    return roles
   }
 
 }
