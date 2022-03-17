@@ -7,14 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Backend.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Data
 {
     public class Seed
     {
-        public static async Task SeedUsers(DataContext context)
+        public static async Task SeedUsers(UserManager<User> userManager)
         {
-            if (await context.Users.AnyAsync())
+            if (await userManager.Users.AnyAsync())
             {
                 return;
             }
@@ -27,10 +28,9 @@ namespace Backend.Data
             {
                 user.UserName = user.UserName.ToLower();
                 user.Email = user.UserName.ToLower() + "@example.com";
-                context.Users.Add(user);
+                await userManager.CreateAsync(user, "Lösenord123");
             }
-
-            await context.SaveChangesAsync();
+            
         }
     }
 }

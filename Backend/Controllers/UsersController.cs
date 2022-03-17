@@ -14,6 +14,7 @@ using Backend.Helpers;
 using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,9 +27,13 @@ namespace Backend.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public UsersController(DataContext context, TokenService tokenService, IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
+        public UsersController(DataContext context, UserManager<User> userManager, SignInManager<User> signInManager, TokenService tokenService, IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
         {
+            _signInManager = signInManager;
+            _userManager = userManager;
             _photoService = photoService;
             _tokenService = tokenService;
             _userRepository = userRepository;
@@ -72,13 +77,13 @@ namespace Backend.Controllers
         public async Task<ActionResult<UserDTO>> RegisterUser(RegisterDTO reg)
         {
             // Check if username already exists in db
-            if (await _context.Users.AnyAsync(user => user.UserName == reg.UserName.ToLower()))
+            if (await _userManager.Users.AnyAsync(user => user.UserName == reg.UserName.ToLower()))
             {
                 return BadRequest("Username taken!");
             }
 
             // Check if email already exists in db
-            if (await _context.Users.AnyAsync(user => user.Email == reg.Email.ToLower()))
+            if (await _userManager.Users.AnyAsync(user => user.Email == reg.Email.ToLower()))
             {
                 return BadRequest("Email taken!");
             }
@@ -88,8 +93,12 @@ namespace Backend.Controllers
             user.UserName = reg.UserName.ToLower();
             user.Email = reg.Email;
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, reg.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
 
             return new UserDTO
             {
@@ -104,11 +113,18 @@ namespace Backend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO login)
         {
-            User user = await _context.Users.Include(photo => photo.Photos).SingleOrDefaultAsync(u => u.UserName == login.UserName.ToLower());
+            User user = await _userManager.Users.Include(photo => photo.Photos).SingleOrDefaultAsync(u => u.UserName == login.UserName.ToLower());
 
             if (user == null)
             {
                 return Unauthorized("Invalid username");
+            }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
+
+            if (!result.Succeeded)
+            {
+                return Unauthorized();
             }
 
             return new UserDTO
