@@ -34,6 +34,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { AdminComponent } from './admin/admin/admin.component';
 import { IsAdminDirective } from './shared/directives/is-admin.directive';
+import { UserManagementComponent } from './admin/admin/user-management/user-management.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { IsAdminDirective } from './shared/directives/is-admin.directive';
     FormTextHandlerComponent,
     MemberMessagesComponent,
     AdminComponent,
-    IsAdminDirective
+    IsAdminDirective,
+    UserManagementComponent
   ],
   imports: [
     BrowserModule,

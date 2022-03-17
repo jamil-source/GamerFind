@@ -1,0 +1,21 @@
+@import "../../../shared/styles/colors";
+@import "../../../shared/styles/fonts";
+
+table {
+    border: 1px solid $white;
+    tr {
+        th {
+            color: $white;
+        }
+        td {
+            color: $white;
+        }
+        button {
+            background-color: $standard !important;
+            border: none;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}
