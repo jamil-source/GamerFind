@@ -18,7 +18,8 @@
                     </div>
                     <div>
                         <strong>Last active:</strong>
-                        <p>{{member.lastActive | timeago}}</p>
+                        <p *ngIf="!(presence.onlineUsers$ | async).includes(member.userName)">{{member.lastActive | timeago}}</p>
+                        <p class="is-online" *ngIf="(presence.onlineUsers$ | async).includes(member.userName)">Online</p>
                     </div>
                 </div>
             </div>
@@ -42,7 +43,7 @@
                 <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
             </tab>
             <tab heading="Messages" (selectTab)="tabActivated($event)">
-                <app-member-messages [messages]='messages' [userName]="member.userName"></app-member-messages>
+                <app-member-messages [userName]="member.userName"></app-member-messages>
             </tab>
         </tabset>
     </div>

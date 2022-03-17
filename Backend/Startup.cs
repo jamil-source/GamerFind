@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 using Backend.Helpers;
+using Backend.SignalR;
 
 namespace Backend
 {
@@ -34,6 +35,7 @@ namespace Backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<PresenceTracker>();
             services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
             services.AddScoped<TokenService>();
             services.AddScoped<IPhotoService, PhotoService>();
@@ -42,7 +44,7 @@ namespace Backend
             services.AddScoped<LogUserActivity>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-            
+
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseSqlite(_config.GetConnectionString("DefaultConnection"));
@@ -55,14 +57,32 @@ namespace Backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
             });
             services.AddCors();
+            services.AddSignalR();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true, 
+                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"])),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accesToken = context.Request.Query["access_token"];
+
+                        var path = context.HttpContext.Request.Path;
+
+                        if (!string.IsNullOrEmpty(accesToken) && path.StartsWithSegments("/hubs"))
+                        {
+                            context.Token = accesToken;
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
         }
@@ -90,6 +110,8 @@ namespace Backend
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
         }
     }

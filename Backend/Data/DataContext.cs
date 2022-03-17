@@ -13,9 +13,11 @@ namespace Backend.Data
         {
         }
 
-        public DbSet <User> Users { get; set; }
-        public DbSet <UserLike> Likes { get; set; }
-        public DbSet <Message> Messages { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserLike> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Connection> Connections { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -23,8 +25,8 @@ namespace Backend.Data
             base.OnModelCreating(builder);
 
             builder.Entity<UserLike>()
-                .HasKey(key => new {key.UserId, key.LikedUserId});
-            
+                .HasKey(key => new { key.UserId, key.LikedUserId });
+
             builder.Entity<UserLike>()
                 .HasOne(u => u.User)
                 .WithMany(l => l.LikedUsers)
@@ -41,7 +43,7 @@ namespace Backend.Data
                 .HasOne(u => u.Receiver)
                 .WithMany(m => m.MessagesReceived)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             builder.Entity<Message>()
                 .HasOne(u => u.Sender)
                 .WithMany(m => m.MessagesSent)

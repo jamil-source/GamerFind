@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
 import { User } from './models/User';
 import { AccountService } from './shared/services/account.service';
+import { PresenceService } from './shared/services/presence.service';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +16,14 @@ export class AppComponent implements OnInit {
   backgroundChange: boolean;
   event$: any;
 
-  constructor(private http: HttpClient, private accountService: AccountService, private router: Router) { }
+  constructor(private http: HttpClient, private accountService: AccountService, private router: Router, private presence: PresenceService) { }
 
   ngOnInit() {
     const user: User = JSON.parse(localStorage.getItem('user'));
-    this.accountService.setLoggedInUser(user);
-    console.log(this.router.url)
+    if(user) {
+      this.accountService.setLoggedInUser(user);
+      this.presence.createHubConnection(user);
+    }
 
     this.router.url === "/" ? this.backgroundChange = true : this.backgroundChange = false;
     this.event$ = this.router.events.subscribe(
