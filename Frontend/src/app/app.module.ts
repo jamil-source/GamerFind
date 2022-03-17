@@ -33,6 +33,7 @@ import { TimeagoModule } from 'ngx-timeago';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { AdminComponent } from './admin/admin/admin.component';
+import { IsAdminDirective } from './shared/directives/is-admin.directive';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { AdminComponent } from './admin/admin/admin.component';
     MemberPhotoHandlerComponent,
     FormTextHandlerComponent,
     MemberMessagesComponent,
-    AdminComponent
+    AdminComponent,
+    IsAdminDirective
   ],
   imports: [
     BrowserModule,
