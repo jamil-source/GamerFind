@@ -32,6 +32,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TimeagoModule } from 'ngx-timeago';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { AdminComponent } from './admin/admin/admin.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     MemberEditComponent,
     MemberPhotoHandlerComponent,
     FormTextHandlerComponent,
-    MemberMessagesComponent
+    MemberMessagesComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

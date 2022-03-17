@@ -131,7 +131,7 @@ namespace Backend.Controllers
 
             if (!result.Succeeded)
             {
-                return Unauthorized();
+                return Unauthorized("Invalid password");
             }
 
             return new UserDTO
