@@ -35,6 +35,8 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
 import { AdminComponent } from './admin/admin/admin.component';
 import { IsAdminDirective } from './shared/directives/is-admin.directive';
 import { UserManagementComponent } from './admin/admin/user-management/user-management.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { RolesModalComponent } from './shared/modals/roles-modal/roles-modal.component';
 
 
 @NgModule({
@@ -55,7 +57,8 @@ import { UserManagementComponent } from './admin/admin/user-management/user-mana
     MemberMessagesComponent,
     AdminComponent,
     IsAdminDirective,
-    UserManagementComponent
+    UserManagementComponent,
+    RolesModalComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +80,8 @@ import { UserManagementComponent } from './admin/admin/user-management/user-mana
     ReactiveFormsModule,
     PaginationModule.forRoot(),
     TimeagoModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
