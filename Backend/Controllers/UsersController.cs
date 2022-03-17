@@ -40,13 +40,13 @@ namespace Backend.Controllers
         // api/users
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery]UserParams userParams)
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery] UserParams userParams)
         {
-            
+
 
             userParams.CurrentUsername = User.GetUsername();
 
-            if(string.IsNullOrEmpty(userParams.GameType))
+            if (string.IsNullOrEmpty(userParams.GameType))
             {
                 userParams.GameType = "PVE";
             }
@@ -85,13 +85,8 @@ namespace Backend.Controllers
 
             var user = _mapper.Map<User>(reg);
 
-            using var hmac = new HMACSHA512(); // Hashing 
-
             user.UserName = reg.UserName.ToLower();
             user.Email = reg.Email;
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(reg.Password));
-            user.PasswordSalt = hmac.Key; // HMACSHA512 generates a key and that key will be used as salt for the PW
-
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -114,18 +109,6 @@ namespace Backend.Controllers
             if (user == null)
             {
                 return Unauthorized("Invalid username");
-            }
-
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(login.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i])
-                {
-                    return Unauthorized("Inavlid password");
-                }
             }
 
             return new UserDTO
@@ -159,7 +142,7 @@ namespace Backend.Controllers
         [Authorize]
         public async Task<ActionResult<PhotoDTO>> UploadPhoto(IFormFile file)
         {
-            
+
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             var result = await _photoService.AddPhotoAsync(file);
@@ -230,7 +213,7 @@ namespace Backend.Controllers
         [Authorize]
         public async Task<ActionResult> DeletePhoto(int photoId)
         {
-        
+
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);

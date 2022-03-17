@@ -14,7 +14,7 @@ namespace Backend.Data
     {
         public static async Task SeedUsers(DataContext context)
         {
-            if(await context.Users.AnyAsync())
+            if (await context.Users.AnyAsync())
             {
                 return;
             }
@@ -23,14 +23,10 @@ namespace Backend.Data
             var users = JsonSerializer.Deserialize<List<User>>(userData);
 
             // Foreach seeded user 
-            foreach(var user in users)
+            foreach (var user in users)
             {
-                using var hmac = new HMACSHA512(); // Hashing 
                 user.UserName = user.UserName.ToLower();
                 user.Email = user.UserName.ToLower() + "@example.com";
-                user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Lösenord123"));
-                user.PasswordSalt = hmac.Key;
-
                 context.Users.Add(user);
             }
 
