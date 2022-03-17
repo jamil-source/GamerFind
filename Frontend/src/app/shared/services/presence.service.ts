@@ -36,8 +36,8 @@ export class PresenceService {
       this.onlineUsersSource.next(userNames);
     })
 
-    this.hubConnection.on("NewMessageReceived", ({ userName }) => {
-      this.toastr.info(`${userName} sent you a message!`).onTap.pipe(take(1)).subscribe(() => this.router.navigateByUrl(`/members/${userName}?tab=2`))
+    this.hubConnection.on("NewMessageReceived", ({ username }) => {
+      this.toastr.info(`${username} sent you a message!`).onTap.pipe(take(1)).subscribe(() => this.router.navigateByUrl(`/members/${username}?tab=2`))
     })
   }
 
