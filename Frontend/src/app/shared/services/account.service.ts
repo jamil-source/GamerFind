@@ -21,8 +21,8 @@ export class AccountService {
     return this.http.post(`${this.baseUrl}users/login`, loginObj).pipe(
       map((res: User) => {
         const user = res;
-        if(user){
-          localStorage.setItem('user', JSON.stringify(user)), this.loggedInUserSrc.next(user)
+        if (user) {
+          this.setLoggedInUser(user)
           this.presence.createHubConnection(user)
         }
         return user;
@@ -34,8 +34,8 @@ export class AccountService {
     return this.http.post(`${this.baseUrl}users/register`, registerObj).pipe(
       map((user: User) => {
         //Login once registration is done
-        if(user){
-          localStorage.setItem('user', JSON.stringify(user)), this.loggedInUserSrc.next(user)
+        if (user) {
+          this.setLoggedInUser(user)
           this.presence.createHubConnection(user)
         }
         return user;
@@ -44,6 +44,10 @@ export class AccountService {
   }
 
   setLoggedInUser(user: User) {
+    user.roles = [];
+    const roles = this.getToken(user.token).role;
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+    localStorage.setItem('user', JSON.stringify(user))
     this.loggedInUserSrc.next(user);
   }
 
@@ -51,5 +55,10 @@ export class AccountService {
     localStorage.removeItem('user');
     this.loggedInUserSrc.next(null)
     this.presence.stopHubConnection();
+  }
+
+  getToken(token) {
+    // Decode token info
+    return JSON.parse(atob(token.split('.')[1]));
   }
 }

@@ -32,6 +32,11 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TimeagoModule } from 'ngx-timeago';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { AdminComponent } from './admin/admin/admin.component';
+import { IsAdminDirective } from './shared/directives/is-admin.directive';
+import { UserManagementComponent } from './admin/admin/user-management/user-management.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { RolesModalComponent } from './shared/modals/roles-modal/roles-modal.component';
 
 
 @NgModule({
@@ -49,7 +54,11 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     MemberEditComponent,
     MemberPhotoHandlerComponent,
     FormTextHandlerComponent,
-    MemberMessagesComponent
+    MemberMessagesComponent,
+    AdminComponent,
+    IsAdminDirective,
+    UserManagementComponent,
+    RolesModalComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +80,8 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     ReactiveFormsModule,
     PaginationModule.forRoot(),
     TimeagoModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

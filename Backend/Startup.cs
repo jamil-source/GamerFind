@@ -21,6 +21,8 @@ using Microsoft.OpenApi.Models;
 using AutoMapper;
 using Backend.Helpers;
 using Backend.SignalR;
+using Backend.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Backend
 {
@@ -59,6 +61,16 @@ namespace Backend
             services.AddCors();
             services.AddSignalR();
 
+            services.AddIdentityCore<User>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+            })
+                .AddRoles<Role>()
+                .AddRoleManager<RoleManager<Role>>()
+                .AddSignInManager<SignInManager<User>>()
+                .AddRoleValidator<RoleValidator<Role>>()
+                .AddEntityFrameworkStores<DataContext>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -84,6 +96,11 @@ namespace Backend
                         return Task.CompletedTask;
                     }
                 };
+            });
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
             });
         }
 

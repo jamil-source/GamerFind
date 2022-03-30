@@ -14,6 +14,7 @@ using Backend.Helpers;
 using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,9 +27,13 @@ namespace Backend.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public UsersController(DataContext context, TokenService tokenService, IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
+        public UsersController(DataContext context, UserManager<User> userManager, SignInManager<User> signInManager, TokenService tokenService, IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
         {
+            _signInManager = signInManager;
+            _userManager = userManager;
             _photoService = photoService;
             _tokenService = tokenService;
             _userRepository = userRepository;
@@ -40,13 +45,13 @@ namespace Backend.Controllers
         // api/users
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery]UserParams userParams)
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery] UserParams userParams)
         {
-            
+
 
             userParams.CurrentUsername = User.GetUsername();
 
-            if(string.IsNullOrEmpty(userParams.GameType))
+            if (string.IsNullOrEmpty(userParams.GameType))
             {
                 userParams.GameType = "PVE";
             }
@@ -72,34 +77,40 @@ namespace Backend.Controllers
         public async Task<ActionResult<UserDTO>> RegisterUser(RegisterDTO reg)
         {
             // Check if username already exists in db
-            if (await _context.Users.AnyAsync(user => user.UserName == reg.UserName.ToLower()))
+            if (await _userManager.Users.AnyAsync(user => user.UserName == reg.UserName.ToLower()))
             {
                 return BadRequest("Username taken!");
             }
 
             // Check if email already exists in db
-            if (await _context.Users.AnyAsync(user => user.Email == reg.Email.ToLower()))
+            if (await _userManager.Users.AnyAsync(user => user.Email == reg.Email.ToLower()))
             {
                 return BadRequest("Email taken!");
             }
 
             var user = _mapper.Map<User>(reg);
 
-            using var hmac = new HMACSHA512(); // Hashing 
-
             user.UserName = reg.UserName.ToLower();
             user.Email = reg.Email;
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(reg.Password));
-            user.PasswordSalt = hmac.Key; // HMACSHA512 generates a key and that key will be used as salt for the PW
 
+            var result = await _userManager.CreateAsync(user, reg.Password);
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+
+            if (!roleResult.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
 
             return new UserDTO
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 GameType = user.GameType
             };
         }
@@ -109,29 +120,24 @@ namespace Backend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO login)
         {
-            User user = await _context.Users.Include(photo => photo.Photos).SingleOrDefaultAsync(u => u.UserName == login.UserName.ToLower());
+            User user = await _userManager.Users.Include(photo => photo.Photos).SingleOrDefaultAsync(u => u.UserName == login.UserName.ToLower());
 
             if (user == null)
             {
                 return Unauthorized("Invalid username");
             }
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
 
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(login.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
+            if (!result.Succeeded)
             {
-                if (computedHash[i] != user.PasswordHash[i])
-                {
-                    return Unauthorized("Inavlid password");
-                }
+                return Unauthorized("Invalid password");
             }
 
             return new UserDTO
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(photo => photo.MainPhoto)?.Url,
                 GameType = user.GameType
             };
@@ -159,7 +165,7 @@ namespace Backend.Controllers
         [Authorize]
         public async Task<ActionResult<PhotoDTO>> UploadPhoto(IFormFile file)
         {
-            
+
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             var result = await _photoService.AddPhotoAsync(file);
@@ -230,7 +236,7 @@ namespace Backend.Controllers
         [Authorize]
         public async Task<ActionResult> DeletePhoto(int photoId)
         {
-        
+
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
