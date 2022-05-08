@@ -63,6 +63,8 @@
             border-color: $standard;
             color: $white;
             font-weight: bold;
+            text-align: center;
+            border-radius: 0;
         }
         button {
             font-weight: bold;
@@ -72,6 +74,27 @@
             background-color: $standard;
             color: $white;
             font-weight: bold;
+            transform: skew(-20deg);
+            border-radius: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+            &:hover{
+                opacity: .8;
+            }
+            span{
+                display:inline-block;
+                transform: skew(20deg);
+            }
+        }
+        .btn-success{
+            transform: skew(-20deg);
+            border-radius: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+            span{
+                display:inline-block;
+                transform: skew(20deg);
+            }
         }
     }
 }
