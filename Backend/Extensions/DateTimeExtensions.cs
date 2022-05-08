@@ -9,7 +9,7 @@ namespace Backend.Extensions
     {
         public static int CalculateAge(this DateTime dateOfBirth)
         {
-            var today = DateTime.Today;
+            var today = DateTime.UtcNow;
             var age = today.Year - dateOfBirth.Year;
             // Checks exactly birthday.
             if(dateOfBirth.Date > today.AddYears(-age))

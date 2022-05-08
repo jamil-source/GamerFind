@@ -15,7 +15,7 @@ namespace Backend.Entities
         public string ReceiverUsername { get; set; }
         public User Receiver { get; set; }
         public string Content { get; set; }
-        public DateTime MessageSent { get; set; } = DateTime.Now;
+        public DateTime MessageSent { get; set; } = DateTime.UtcNow;
         public DateTime? DateRead { get; set; }
         public bool SenderDeleted { get; set; }
         public bool ReceiverDeleted { get; set; }

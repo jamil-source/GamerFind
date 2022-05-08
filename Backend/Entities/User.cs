@@ -10,8 +10,8 @@ namespace Backend.Entities
     public class User : IdentityUser<int>
     {
         public DateTime DateOfBirth { get; set; }
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime LastActive { get; set; } = DateTime.Now;
+        public DateTime Created { get; set; } = DateTime.UtcNow;
+        public DateTime LastActive { get; set; } = DateTime.UtcNow;
         public string GameType { get; set; }
         public string Interests { get; set; }
         public string LookingFor { get; set; }

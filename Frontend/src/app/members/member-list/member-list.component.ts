@@ -41,7 +41,6 @@ export class MemberListComponent implements OnInit {
       this.members = this.paginated.result
       this.pagination = this.paginated.pagination;
     }, error => {
-      console.log(error)
       this.toastr.error("Unauthorized")
     })
   }
@@ -52,7 +51,6 @@ export class MemberListComponent implements OnInit {
   }
 
   changePage(event) {
-    console.log(event)
     this.userParams.pageNumber = event.page;
     this.getAllMembers();
   }

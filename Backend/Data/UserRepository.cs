@@ -34,8 +34,8 @@ namespace Backend.Data
             q = q.Where(user => user.UserName != userParams.CurrentUsername);
             q = q.Where(user => user.GameType == userParams.GameType);
 
-            var minDateOfBirth = DateTime.Today.AddYears(-userParams.MaxAge - 1);
-            var maxDateOfBirth = DateTime.Today.AddYears(-userParams.MinAge);
+            var minDateOfBirth = DateTime.UtcNow.AddYears(-userParams.MaxAge - 1);
+            var maxDateOfBirth = DateTime.UtcNow.AddYears(-userParams.MinAge);
 
             q = q.Where(user => user.DateOfBirth >= minDateOfBirth && user.DateOfBirth <= maxDateOfBirth);
 

@@ -13,7 +13,6 @@ export class IsAdminDirective implements OnInit {
   constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<any>, private accountService: AccountService) {
     this.accountService.loggedInUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
-      console.log(user)
     })
   }
   ngOnInit(): void {

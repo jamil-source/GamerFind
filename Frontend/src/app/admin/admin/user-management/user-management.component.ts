@@ -22,7 +22,6 @@ export class UserManagementComponent implements OnInit {
   getUsersAsAdmin() {
     this.adminService.getUsersAsAdmin().subscribe(users => {
       this.users = users;
-      console.log(this.users)
     })
   }
 
@@ -40,7 +39,6 @@ export class UserManagementComponent implements OnInit {
         roles: [...values.filter(el => el.checked === true).map(el => el.name)]
       }
       if(rolesToUpdate){
-        console.log(user)
         this.adminService.updateUserRoles(user.username, rolesToUpdate.roles).subscribe(() => {
           user.roles = [...rolesToUpdate.roles]
         })

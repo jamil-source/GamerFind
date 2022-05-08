@@ -9,7 +9,6 @@ export class UserParams {
 
     constructor(user: User) {
         this.gameType = user.gameType;
-        console.log(this.gameType)
         if(!user.gameType){
             this.gameType = "PVE & PVP";
         }
